@@ -52,7 +52,7 @@ class SnapFloaterScope extends StatefulWidget {
   /// {@macro snap_floater_scope}
   factory SnapFloaterScope({
     required ValueGetter<FutureOr<void>> onPressed,
-    required Widget child,
+    required Widget? child,
     SnapFloaterSettings settings = const SnapFloaterSettings(),
     bool useSafeArea = true,
     EdgeInsets padding = const EdgeInsets.all(10),
@@ -78,7 +78,7 @@ class SnapFloaterScope extends StatefulWidget {
   factory SnapFloaterScope.builder({
     required WidgetBuilder builder,
     required PreviewBuilder previewBuilder,
-    required Widget child,
+    required Widget? child,
     SnapFloaterSettings settings = const SnapFloaterSettings(),
     bool useSafeArea = true,
     EdgeInsets padding = const EdgeInsets.all(10),
@@ -117,7 +117,7 @@ class SnapFloaterScope extends StatefulWidget {
   final SnapFloaterSettings settings;
 
   /// The widget subtree this scope wraps.
-  final Widget child;
+  final Widget? child;
 
   /// Whether to account for system safe area insets when calculating positions.
   final bool useSafeArea;
@@ -209,7 +209,7 @@ class _SnapFloaterScopeState extends State<SnapFloaterScope> {
       notifier: _controller,
       child: Stack(
         children: [
-          widget.child,
+          if (widget.child case final child?) child,
           if (_shouldShowPreview)
             ValueListenableBuilder<SnapFloaterState>(
               valueListenable: _controller,

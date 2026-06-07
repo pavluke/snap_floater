@@ -27,7 +27,7 @@ Add snap_floater to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  snap_floater: ^0.1.8
+  snap_floater: ^0.1.9
 ```
 
 Or using the command:

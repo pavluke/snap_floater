@@ -1,3 +1,7 @@
+## 0.1.9
+
+- Make `child` is nullable.
+
 ## 0.1.8
 
 - Add border on base SnapFloater button.
