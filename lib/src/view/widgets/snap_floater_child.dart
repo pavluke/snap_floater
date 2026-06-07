@@ -183,14 +183,17 @@ class _SnapFloaterChildState extends State<SnapFloaterChild> {
         child: AnimatedOpacity(
           duration: const Duration(milliseconds: 200),
           opacity: widget.isVisible ? 1.0 : 0.0,
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onLongPressStart: _onLongPressStart(currentOffset),
-            onLongPressMoveUpdate: _onLongPressMoveUpdate(),
-            onLongPressEnd: _onLongPressEnd(currentOffset),
-            child: SizeReporter(
-              onSizeCalculated: _onSize,
-              child: child,
+          child: IgnorePointer(
+            ignoring: !widget.isVisible,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onLongPressStart: _onLongPressStart(currentOffset),
+              onLongPressMoveUpdate: _onLongPressMoveUpdate(),
+              onLongPressEnd: _onLongPressEnd(currentOffset),
+              child: SizeReporter(
+                onSizeCalculated: _onSize,
+                child: child,
+              ),
             ),
           ),
         ),

@@ -16,11 +16,11 @@ class SnapFloaterController extends ValueNotifier<SnapFloaterState> {
   /// {@macro snap_floater_controller}
   SnapFloaterController({
     SnapFloaterSettings settings = const SnapFloaterSettings(),
-  }) : _settings = settings,
-       _storageModel = SnapFloaterStorageModel(
-         base: SnapFloaterSnapshot(alignment: settings.initialAlignment),
-       ),
-       super(SnapFloaterState(alignment: settings.initialAlignment)) {
+  })  : _settings = settings,
+        _storageModel = SnapFloaterStorageModel(
+          base: SnapFloaterSnapshot(alignment: settings.initialAlignment),
+        ),
+        super(SnapFloaterState(alignment: settings.initialAlignment)) {
     unawaited(_init());
   }
 
@@ -74,6 +74,8 @@ class SnapFloaterController extends ValueNotifier<SnapFloaterState> {
     _emit(value.copyWith(alignment: alignment));
   }
 
+  bool _isRunning = false;
+
   /// Hides the floater while [action] runs, then shows it again.
   ///
   /// If [action] is synchronous the floater is hidden for its duration
@@ -85,15 +87,20 @@ class SnapFloaterController extends ValueNotifier<SnapFloaterState> {
   ///   await Navigator.of(context).push(...);
   /// });
   /// ```
+
   Future<void> runHidden(ValueGetter<FutureOr<void>> action) async {
-    final result = action();
-    if (result is Future) {
-      try {
+    if (_isRunning) return;
+
+    _isRunning = true;
+    try {
+      final result = action();
+      if (result is Future) {
         hide();
         await result;
-      } finally {
-        show();
       }
+    } finally {
+      show();
+      _isRunning = false;
     }
   }
 }

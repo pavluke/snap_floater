@@ -27,7 +27,7 @@ Add snap_floater to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  snap_floater: ^0.1.0
+  snap_floater: ^0.1.8
 ```
 
 Or using the command:
@@ -118,13 +118,13 @@ SnapFloaterScope(
 )
 ```
 
-| Parameter | Default | Description |
-|---|---|---|
-| `snapAlignments` | `[bottomRight]` | Available snap targets. Drag is disabled when fewer than two |
-| `initialAlignment` | `bottomRight` | Starting position before any interaction |
-| `isEnabled` | `true` | When `false`, the floater is hidden and `show()` has no effect |
-| `showPreview` | `true` | Show preview widgets at snap targets while dragging |
-| `storage` | `null` | Provide to persist position across app launches |
+| Parameter          | Default         | Description                                                    |
+| ------------------ | --------------- | -------------------------------------------------------------- |
+| `snapAlignments`   | `[bottomRight]` | Available snap targets. Drag is disabled when fewer than two   |
+| `initialAlignment` | `bottomRight`   | Starting position before any interaction                       |
+| `isEnabled`        | `true`          | When `false`, the floater is hidden and `show()` has no effect |
+| `showPreview`      | `true`          | Show preview widgets at snap targets while dragging            |
+| `storage`          | `null`          | Provide to persist position across app launches                |
 
 ## Preview animations
 
@@ -137,12 +137,12 @@ SnapFloaterScope.builder(
 )
 ```
 
-| Animation | Description |
-|---|---|
-| `SnapFloaterAnimation.base` | Instantly placed, no position animation |
+| Animation                    | Description                                 |
+| ---------------------------- | ------------------------------------------- |
+| `SnapFloaterAnimation.base`  | Instantly placed, no position animation     |
 | `SnapFloaterAnimation.slide` | Slides from current drag position to target |
-| `SnapFloaterAnimation.pop` | Scale overshoot on appear: `0 → 1.15 → 1.0` |
-| `SnapFloaterAnimation.blur` | Transitions from blurred to sharp on appear |
+| `SnapFloaterAnimation.pop`   | Scale overshoot on appear: `0 → 1.15 → 1.0` |
+| `SnapFloaterAnimation.blur`  | Transitions from blurred to sharp on appear |
 
 ### Custom preview animation
 
@@ -228,24 +228,24 @@ SnapFloaterScope(
 
 ### `SnapFloaterScope`
 
-| Member | Description |
-|---|---|
-| `SnapFloaterScope({onPressed, child, ...})` | Default factory — renders `BasicSnapFloaterButton` |
-| `SnapFloaterScope.builder({buttonBuilder, previewBuilder, child, ...})` | Custom button and preview |
-| `SnapFloaterScope.of(context)` | Returns the nearest `SnapFloaterController`. Throws if not found |
-| `SnapFloaterScope.maybeOf(context)` | Returns `null` if not found |
+| Member                                                                  | Description                                                      |
+| ----------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `SnapFloaterScope({onPressed, child, ...})`                             | Default factory — renders `BasicSnapFloaterButton`               |
+| `SnapFloaterScope.builder({buttonBuilder, previewBuilder, child, ...})` | Custom button and preview                                        |
+| `SnapFloaterScope.of(context)`                                          | Returns the nearest `SnapFloaterController`. Throws if not found |
+| `SnapFloaterScope.maybeOf(context)`                                     | Returns `null` if not found                                      |
 
 ### `SnapFloaterController`
 
-| Member | Description |
-|---|---|
-| `alignment` | Current snap alignment |
-| `isVisible` | Whether the floater is currently visible |
-| `isDragging` | Whether the user is actively dragging |
-| `show()` | Shows the floater |
-| `hide()` | Hides the floater |
+| Member              | Description                                           |
+| ------------------- | ----------------------------------------------------- |
+| `alignment`         | Current snap alignment                                |
+| `isVisible`         | Whether the floater is currently visible              |
+| `isDragging`        | Whether the user is actively dragging                 |
+| `show()`            | Shows the floater                                     |
+| `hide()`            | Hides the floater                                     |
 | `snapTo(alignment)` | Snaps to a specific alignment and persists the change |
-| `runHidden(action)` | Hides while action runs, then shows again |
+| `runHidden(action)` | Hides while action runs, then shows again             |
 
 ## Changelog
 

@@ -14,18 +14,27 @@ class BasicSnapFloaterButton extends StatelessWidget {
   final VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 15,
-              spreadRadius: .01,
-              color: Theme.of(context).buttonTheme.colorScheme?.secondary ??
-                  Colors.transparent,
-            ),
-          ],
+  Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme.primary;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final hsl = HSLColor.fromColor(color);
+
+    final adjusted = hsl
+        .withLightness(
+          (hsl.lightness + (isDark ? .1 : -.1)).clamp(0.0, 1.0),
+        )
+        .toColor();
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 3,
+          color: adjusted,
         ),
+        shape: BoxShape.circle,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(3),
         child: IconButton.filled(
           padding: const EdgeInsets.all(15),
           onPressed: onTap,
@@ -34,5 +43,7 @@ class BasicSnapFloaterButton extends StatelessWidget {
             color: Theme.of(context).buttonTheme.colorScheme?.onPrimary,
           ),
         ),
-      );
+      ),
+    );
+  }
 }
