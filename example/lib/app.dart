@@ -25,6 +25,7 @@ class NewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SnapFloaterScope(
         settings: const SnapFloaterSettings(
+          dragMode: FloaterDragMode.pan,
           snapAlignments: [
             Alignment.bottomCenter,
             Alignment.bottomLeft,

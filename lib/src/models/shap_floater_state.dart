@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
 
 /// {@template snap_floater_state}
@@ -9,6 +10,7 @@ import 'package:flutter/painting.dart';
 /// identical fields are considered equal, which prevents unnecessary rebuilds
 /// in [ValueListenableBuilder].
 /// {@endtemplate}
+@immutable
 class SnapFloaterState {
   /// {@macro snap_floater_state}
   const SnapFloaterState({
@@ -38,12 +40,13 @@ class SnapFloaterState {
     bool? isVisible,
     bool? isDragging,
     Size? childSize,
-  }) => SnapFloaterState(
-    alignment: alignment ?? this.alignment,
-    isVisible: isVisible ?? this.isVisible,
-    isDragging: isDragging ?? this.isDragging,
-    childSize: childSize ?? this.childSize,
-  );
+  }) =>
+      SnapFloaterState(
+        alignment: alignment ?? this.alignment,
+        isVisible: isVisible ?? this.isVisible,
+        isDragging: isDragging ?? this.isDragging,
+        childSize: childSize ?? this.childSize,
+      );
 
   @override
   bool operator ==(Object other) =>
@@ -58,8 +61,7 @@ class SnapFloaterState {
   int get hashCode => Object.hash(alignment, isVisible, isDragging, childSize);
 
   @override
-  String toString() =>
-      'SnapFloaterState('
+  String toString() => 'SnapFloaterState('
       'alignment: $alignment, '
       'isVisible: $isVisible, '
       'isDragging: $isDragging, '

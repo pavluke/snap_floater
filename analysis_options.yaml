@@ -1,5 +1,8 @@
-include: package:flutter_lints/flutter.yaml
+include: package:pavluke_lints/pavluke_lints.yaml
 
 formatter:
   page_width: 80
   trailing_commas: preserve
+analyzer:
+  errors:
+    avoid_positional_boolean_parameters: ignore

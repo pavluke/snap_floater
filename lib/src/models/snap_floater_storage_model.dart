@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'snap_floater_snapshot.dart';
 
 /// {@template snap_floater_storage_model}
@@ -9,6 +11,7 @@ import 'snap_floater_snapshot.dart';
 /// Currently stores only [base] alignment; extend with route-specific
 /// overrides for complex multi-route apps.
 /// {@endtemplate}
+@immutable
 class SnapFloaterStorageModel {
   /// {@macro snap_floater_storage_model}
   const SnapFloaterStorageModel({
@@ -29,14 +32,15 @@ class SnapFloaterStorageModel {
   /// Creates a new instance with specified fields replaced.
   SnapFloaterStorageModel copyWith({
     SnapFloaterSnapshot? base,
-  }) => SnapFloaterStorageModel(
-    base: base ?? this.base,
-  );
+  }) =>
+      SnapFloaterStorageModel(
+        base: base ?? this.base,
+      );
 
   /// Serializes to JSON storage format.
   Map<String, dynamic> toJson() => {
-    'base': base.toJson(),
-  };
+        'base': base.toJson(),
+      };
 
   @override
   bool operator ==(Object other) =>

@@ -27,7 +27,7 @@ Add snap_floater to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  snap_floater: ^0.1.9
+  snap_floater: ^0.2.0
 ```
 
 Or using the command:
@@ -118,13 +118,14 @@ SnapFloaterScope(
 )
 ```
 
-| Parameter          | Default         | Description                                                    |
-| ------------------ | --------------- | -------------------------------------------------------------- |
-| `snapAlignments`   | `[bottomRight]` | Available snap targets. Drag is disabled when fewer than two   |
-| `initialAlignment` | `bottomRight`   | Starting position before any interaction                       |
-| `isEnabled`        | `true`          | When `false`, the floater is hidden and `show()` has no effect |
-| `showPreview`      | `true`          | Show preview widgets at snap targets while dragging            |
-| `storage`          | `null`          | Provide to persist position across app launches                |
+| Parameter          | Default         | Description                                                                                                              |
+| ------------------ | --------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `snapAlignments`   | `[bottomRight]` | Available snap targets. Drag is disabled when fewer than two                                                             |
+| `initialAlignment` | `bottomRight`   | Starting position before any interaction                                                                                 |
+| `isEnabled`        | `true`          | When `false`, the floater is hidden and `show()` has no effect                                                           |
+| `showPreview`      | `true`          | Show preview widgets at snap targets while dragging                                                                      |
+| `storage`          | `null`          | Provide to persist position across app launches                                                                          |
+| `dragMode`         | `longPress`     | How drag is initiated: `longPress` to avoid accidental drags on a tappable button, `pan` for immediate response on touch |
 
 ## Preview animations
 

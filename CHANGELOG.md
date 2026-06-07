@@ -1,3 +1,7 @@
+## 0.2.0
+
+- Add `FloaterDragMode` enum with `longPress` and `pan` modes.
+
 ## 0.1.9
 
 - Make `child` is nullable.

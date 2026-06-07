@@ -2,7 +2,7 @@ name: snap_floater
 description: A draggable floating button for Flutter that snaps to predefined
   screen positions. Controlled programmatically from anywhere in the widget tree
   via `SnapFloaterScope.of(context)`.
-version: 0.1.9
+version: 0.2.0
 homepage: https://github.com/pavluke/snap_floater
 repository: https://github.com/pavluke/snap_floater
 issue_tracker: https://github.com/pavluke/snap_floater/issues

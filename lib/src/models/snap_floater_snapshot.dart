@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
 
 /// {@template snap_floater_snapshot}
@@ -7,6 +8,7 @@ import 'package:flutter/painting.dart';
 /// Currently stores [alignment]; extend this class
 /// to persist additional per-session state like size or visibility.
 /// {@endtemplate}
+@immutable
 class SnapFloaterSnapshot {
   /// {@macro snap_floater_snapshot}
   const SnapFloaterSnapshot({
@@ -27,14 +29,14 @@ class SnapFloaterSnapshot {
 
   /// Creates a new instance with specified fields replaced.
   SnapFloaterSnapshot copyWith({Alignment? alignment}) => SnapFloaterSnapshot(
-    alignment: alignment ?? this.alignment,
-  );
+        alignment: alignment ?? this.alignment,
+      );
 
   /// Serializes to JSON storage format.
   Map<String, dynamic> toJson() => {
-    'x': alignment.x,
-    'y': alignment.y,
-  };
+        'x': alignment.x,
+        'y': alignment.y,
+      };
 
   @override
   bool operator ==(Object other) =>

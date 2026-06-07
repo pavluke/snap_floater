@@ -29,15 +29,16 @@ abstract final class SnapFloaterAnimation {
     required bool isVisible,
     required bool isNearest,
     required Widget child,
-  }) => AnimatedOpacity(
-    duration: const Duration(milliseconds: 100),
-    opacity: _opacity(isVisible: isVisible, isNearest: isNearest),
-    child: AnimatedScale(
-      duration: const Duration(milliseconds: 150),
-      scale: _scale(isNearest: isNearest),
-      child: child,
-    ),
-  );
+  }) =>
+      AnimatedOpacity(
+        duration: const Duration(milliseconds: 100),
+        opacity: _opacity(isVisible: isVisible, isNearest: isNearest),
+        child: AnimatedScale(
+          duration: const Duration(milliseconds: 150),
+          scale: _scale(isNearest: isNearest),
+          child: child,
+        ),
+      );
 
   /// Instantly places the preview at [targetOffset] with no position animation.
   /// Opacity and scale animate based on visibility and proximity.
@@ -49,12 +50,13 @@ abstract final class SnapFloaterAnimation {
     bool isVisible,
     bool isNearest,
     Widget child,
-  ) => BaseAnimation(
-    targetOffset: targetOffset,
-    isVisible: isVisible,
-    isNearest: isNearest,
-    child: child,
-  );
+  ) =>
+      BaseAnimation(
+        targetOffset: targetOffset,
+        isVisible: isVisible,
+        isNearest: isNearest,
+        child: child,
+      );
 
   /// Slides the preview from [currentOffset] to [targetOffset] with
   /// an [Curves.easeOutCubic] curve when [isVisible] becomes true.
@@ -66,13 +68,14 @@ abstract final class SnapFloaterAnimation {
     bool isVisible,
     bool isNearest,
     Widget child,
-  ) => SlideFloaterAnimation(
-    currentOffset: currentOffset,
-    targetOffset: targetOffset,
-    isVisible: isVisible,
-    isNearest: isNearest,
-    child: child,
-  );
+  ) =>
+      SlideFloaterAnimation(
+        currentOffset: currentOffset,
+        targetOffset: targetOffset,
+        isVisible: isVisible,
+        isNearest: isNearest,
+        child: child,
+      );
 
   /// Scales the preview from 0 → 1.15 → 1.0 on appearance (iOS-style pop).
   static Widget pop(
@@ -83,26 +86,28 @@ abstract final class SnapFloaterAnimation {
     bool isVisible,
     bool isNearest,
     Widget child,
-  ) => PopFloaterAnimation(
-    targetOffset: targetOffset,
-    isVisible: isVisible,
-    isNearest: isNearest,
-    child: child,
-  );
+  ) =>
+      PopFloaterAnimation(
+        targetOffset: targetOffset,
+        isVisible: isVisible,
+        isNearest: isNearest,
+        child: child,
+      );
 
   /// Transitions the preview from blurred to sharp as [isVisible] becomes true.
   static Widget blur(
+    bool isNearest,
+    bool isVisible,
     BuildContext context,
     Size floaterSize,
     Offset currentOffset,
     Offset targetOffset,
-    bool isVisible,
-    bool isNearest,
     Widget child,
-  ) => BlurFloaterAnimation(
-    targetOffset: targetOffset,
-    isVisible: isVisible,
-    isNearest: isNearest,
-    child: child,
-  );
+  ) =>
+      BlurFloaterAnimation(
+        targetOffset: targetOffset,
+        isVisible: isVisible,
+        isNearest: isNearest,
+        child: child,
+      );
 }

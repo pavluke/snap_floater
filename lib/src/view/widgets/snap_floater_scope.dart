@@ -4,11 +4,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../../animations/animations.dart';
-import '../../models/models.dart';
-import '../../settings/settings.dart';
-import '../../storage/storage.dart';
-import 'widgets.dart';
+import '../../animations/snap_floater_animation.dart';
+import '../../models/shap_floater_state.dart';
+import '../../models/snap_floater_snapshot.dart';
+import '../../models/snap_floater_storage_model.dart';
+import '../../settings/snap_floater_settings.dart';
+import '../../storage/snap_floater_storage.dart';
+import 'basic_snap_floater_button.dart';
+import 'snap_floater_child.dart';
+import 'snap_preview_builder.dart';
 
 part '../controllers/snap_floater_controller.dart';
 
@@ -229,6 +233,7 @@ class _SnapFloaterScopeState extends State<SnapFloaterScope> {
             valueListenable: _controller,
             child: floaterChild,
             builder: (context, value, child) => SnapFloaterChild(
+              dragMode: widget.settings.dragMode,
               alignment: value.alignment,
               isDragging: value.isDragging,
               isVisible: _isVisible(value.isVisible),

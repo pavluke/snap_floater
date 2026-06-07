@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../extensions/extensions.dart';
-import 'widgets.dart';
+import '../../enums/floater_drag_mode.dart';
+import '../../extensions/to_screen_offset_x.dart';
+import 'size_reporter.dart';
 
 /// {@template snap_floater_child}
 /// The draggable floater button that snaps to predefined [snapAlignments].
@@ -15,6 +16,7 @@ import 'widgets.dart';
 class SnapFloaterChild extends StatefulWidget {
   /// {@macro snap_floater_child}
   const SnapFloaterChild({
+    required this.dragMode,
     required this.curve,
     required this.useSafeArea,
     required this.padding,
@@ -66,12 +68,16 @@ class SnapFloaterChild extends StatefulWidget {
   /// Curve used for the [AnimatedPositioned] snap animation.
   final Curve curve;
 
+  /// How the user initiates dragging; defaults to [FloaterDragMode.longPress]
+  /// to prevent accidental drags on a tappable button.
+  final FloaterDragMode dragMode;
+
   @override
   State<SnapFloaterChild> createState() => _SnapFloaterChildState();
 }
 
 class _SnapFloaterChildState extends State<SnapFloaterChild> {
-  Size _buttonSize = const Size.square(0);
+  Size _buttonSize = Size.zero;
   Offset? _dragAnchor;
   late Set<Alignment> _snapAlignments;
 
@@ -117,43 +123,60 @@ class _SnapFloaterChildState extends State<SnapFloaterChild> {
     return nearest;
   }
 
+  void _handleDragMove(Offset globalPosition) {
+    if (_dragAnchor == null) return;
+    final size = _buttonSize;
+    final raw = globalPosition - _dragAnchor!;
+    final clamped = Offset(
+      raw.dx.clamp(
+        widget.padding.left + _effectiveSafePadding.left,
+        _screenSize.width -
+            size.width -
+            widget.padding.right -
+            _effectiveSafePadding.right,
+      ),
+      raw.dy.clamp(
+        widget.padding.top + _effectiveSafePadding.top,
+        _screenSize.height -
+            size.height -
+            widget.padding.bottom -
+            _effectiveSafePadding.bottom,
+      ),
+    );
+    widget.onDragUpdate(_offsetToAlignment(clamped));
+  }
+
+  void _handleDragStart(Offset globalPosition, Offset currentOffset) {
+    widget.onDragStart();
+    _dragAnchor = globalPosition - currentOffset;
+  }
+
+  void _handleDragEnd(Offset currentOffset) {
+    _dragAnchor = null;
+    final nearest = _nearestSnapAlignment(currentOffset);
+    widget.onDragEnd(nearest ?? widget.alignment);
+  }
+
   GestureLongPressStartCallback? _onLongPressStart(Offset currentOffset) =>
       _isDragDisabled
           ? null
-          : (details) {
-              widget.onDragStart();
-              _dragAnchor = details.globalPosition - currentOffset;
-            };
+          : (d) => _handleDragStart(d.globalPosition, currentOffset);
 
-  GestureLongPressMoveUpdateCallback _onLongPressMoveUpdate() => (details) {
-        if (_dragAnchor == null) return;
-        final size = _buttonSize;
-        final raw = details.globalPosition - _dragAnchor!;
-        final clamped = Offset(
-          raw.dx.clamp(
-            widget.padding.left + _effectiveSafePadding.left,
-            _screenSize.width -
-                size.width -
-                widget.padding.right -
-                _effectiveSafePadding.right,
-          ),
-          raw.dy.clamp(
-            widget.padding.top + _effectiveSafePadding.top,
-            _screenSize.height -
-                size.height -
-                widget.padding.bottom -
-                _effectiveSafePadding.bottom,
-          ),
-        );
-        widget.onDragUpdate(_offsetToAlignment(clamped));
-      };
+  GestureLongPressMoveUpdateCallback _onLongPressMoveUpdate() =>
+      (d) => _handleDragMove(d.globalPosition);
 
   GestureLongPressEndCallback _onLongPressEnd(Offset currentOffset) =>
-      (details) {
-        _dragAnchor = null;
-        final nearest = _nearestSnapAlignment(currentOffset);
-        widget.onDragEnd(nearest ?? widget.alignment);
-      };
+      (d) => _handleDragEnd(currentOffset);
+
+  GestureDragStartCallback? _onPanStart(Offset currentOffset) => _isDragDisabled
+      ? null
+      : (d) => _handleDragStart(d.globalPosition, currentOffset);
+
+  GestureDragUpdateCallback _onPanUpdate() =>
+      (d) => _handleDragMove(d.globalPosition);
+
+  GestureDragEndCallback _onPanEnd(Offset currentOffset) =>
+      (d) => _handleDragEnd(currentOffset);
 
   Alignment _offsetToAlignment(Offset offset) => Alignment(
         (2 * (offset.dx + _buttonSize.width / 2) / _screenSize.width) - 1,
@@ -187,9 +210,25 @@ class _SnapFloaterChildState extends State<SnapFloaterChild> {
             ignoring: !widget.isVisible,
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onLongPressStart: _onLongPressStart(currentOffset),
-              onLongPressMoveUpdate: _onLongPressMoveUpdate(),
-              onLongPressEnd: _onLongPressEnd(currentOffset),
+              onLongPressStart: widget.dragMode == FloaterDragMode.longPress
+                  ? _onLongPressStart(currentOffset)
+                  : null,
+              onLongPressMoveUpdate:
+                  widget.dragMode == FloaterDragMode.longPress
+                      ? _onLongPressMoveUpdate()
+                      : null,
+              onLongPressEnd: widget.dragMode == FloaterDragMode.longPress
+                  ? _onLongPressEnd(currentOffset)
+                  : null,
+              onPanStart: widget.dragMode == FloaterDragMode.pan
+                  ? _onPanStart(currentOffset)
+                  : null,
+              onPanUpdate: widget.dragMode == FloaterDragMode.pan
+                  ? _onPanUpdate()
+                  : null,
+              onPanEnd: widget.dragMode == FloaterDragMode.pan
+                  ? _onPanEnd(currentOffset)
+                  : null,
               child: SizeReporter(
                 onSizeCalculated: _onSize,
                 child: child,

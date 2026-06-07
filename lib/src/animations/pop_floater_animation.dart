@@ -45,13 +45,13 @@ class _PopFloaterAnimationState extends State<PopFloaterAnimation>
   );
   late final Animation<double> _scale = TweenSequence<double>([
     TweenSequenceItem(
-      tween: Tween(begin: 0.0, end: widget.popOvershoot),
+      tween: Tween(begin: 0, end: widget.popOvershoot),
       weight: 60,
     ),
     TweenSequenceItem(
       tween: Tween(
         begin: widget.popOvershoot,
-        end: 1.0,
+        end: 1,
       ),
       weight: 40,
     ),
@@ -81,23 +81,22 @@ class _PopFloaterAnimationState extends State<PopFloaterAnimation>
 
   @override
   Widget build(BuildContext context) => Transform.translate(
-    offset: widget.targetOffset,
-    child: AnimatedOpacity(
-      duration: const Duration(milliseconds: 100),
-      opacity: SnapFloaterAnimation._opacity(
-        isVisible: widget.isVisible,
-        isNearest: widget.isNearest,
-      ),
-      child: AnimatedBuilder(
-        animation: _scale,
-        builder: (context, child) => Transform.scale(
-          scale:
-              _scale.value *
-              SnapFloaterAnimation._scale(isNearest: widget.isNearest),
-          child: child,
+        offset: widget.targetOffset,
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 100),
+          opacity: SnapFloaterAnimation._opacity(
+            isVisible: widget.isVisible,
+            isNearest: widget.isNearest,
+          ),
+          child: AnimatedBuilder(
+            animation: _scale,
+            builder: (context, child) => Transform.scale(
+              scale: _scale.value *
+                  SnapFloaterAnimation._scale(isNearest: widget.isNearest),
+              child: child,
+            ),
+            child: widget.child,
+          ),
         ),
-        child: widget.child,
-      ),
-    ),
-  );
+      );
 }

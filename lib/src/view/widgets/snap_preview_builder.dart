@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../extensions/extensions.dart';
+import '../../extensions/to_screen_offset_x.dart';
 
 /// Signature for a function that builds a preview widget at a snap target.
 ///
@@ -14,16 +14,15 @@ import '../../extensions/extensions.dart';
 ///
 /// Use one of the built-in implementations from [SnapFloaterAnimation],
 /// or supply a custom function matching this signature.
-typedef PreviewBuilder =
-    Widget Function(
-      BuildContext context,
-      Size floaterSize,
-      Offset currentOffset,
-      Offset targetOffset,
-      bool isVisible,
-      bool isNearest,
-      Widget child,
-    );
+typedef PreviewBuilder = Widget Function(
+  BuildContext context,
+  Size floaterSize,
+  Offset currentOffset,
+  Offset targetOffset,
+  bool isVisible,
+  bool isNearest,
+  Widget child,
+);
 
 /// {@template snap_preview_builder}
 /// Renders preview widgets at each snap target position during drag.

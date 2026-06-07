@@ -1,6 +1,7 @@
 import 'package:flutter/painting.dart';
 
-import '../storage/storage.dart';
+import '../enums/floater_drag_mode.dart';
+import '../storage/snap_floater_storage.dart';
 
 /// {@template snap_floater_settings}
 /// Configuration for a [SnapFloaterScope].
@@ -23,6 +24,7 @@ import '../storage/storage.dart';
 class SnapFloaterSettings {
   /// {@macro snap_floater_settings}
   const SnapFloaterSettings({
+    this.dragMode = FloaterDragMode.longPress,
     this.initialAlignment = Alignment.bottomRight,
     this.snapAlignments = const [Alignment.bottomRight],
     this.isEnabled = true,
@@ -50,4 +52,8 @@ class SnapFloaterSettings {
   /// The alignments the floater can snap to.
   /// When fewer than two are provided, drag is disabled entirely.
   final List<Alignment> snapAlignments;
+
+  /// How the user initiates dragging; defaults to [FloaterDragMode.longPress]
+  /// to prevent accidental drags on a tappable button.
+  final FloaterDragMode dragMode;
 }

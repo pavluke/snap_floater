@@ -1,4 +1,4 @@
-import '../models/models.dart';
+import '../models/snap_floater_storage_model.dart';
 
 /// Persistence contract for [SnapFloaterStorageModel].
 ///
