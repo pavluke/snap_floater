@@ -16,11 +16,15 @@ class SnapFloaterController extends ValueNotifier<SnapFloaterState> {
   /// {@macro snap_floater_controller}
   SnapFloaterController({
     SnapFloaterSettings settings = const SnapFloaterSettings(),
-  })  : _settings = settings,
-        _storageModel = SnapFloaterStorageModel(
-          base: SnapFloaterSnapshot(alignment: settings.initialAlignment),
+  })  : assert(
+          settings.snapAlignments.isNotEmpty,
+          'snapAlignments must not be empty',
         ),
-        super(SnapFloaterState(alignment: settings.initialAlignment)) {
+        _settings = settings,
+        _storageModel = SnapFloaterStorageModel(
+          base: SnapFloaterSnapshot(alignment: settings.snapAlignments.first),
+        ),
+        super(SnapFloaterState(alignment: settings.snapAlignments.first)) {
     unawaited(_init());
   }
 

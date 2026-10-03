@@ -1,3 +1,8 @@
+## 0.3.1
+
+* Fix: 0.3.0 was published with an incomplete change and does not compile.
+  The first element of `snapAlignments` is now correctly used as the initial position.
+
 ## 0.3.0
 
 * **BREAKING:** `SnapFloaterSettings.initialAlignment` is deprecated and now ignored.
