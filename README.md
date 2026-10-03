@@ -103,10 +103,9 @@ SnapFloaterScope(
     await someAction();
   },
   settings: const SnapFloaterSettings(
-    initialAlignment: Alignment.bottomRight,
     snapAlignments: [
+      Alignment.bottomRight, // initial position
       Alignment.topRight,
-      Alignment.bottomRight,
       Alignment.bottomLeft,
       Alignment.topLeft,
     ],
@@ -118,14 +117,16 @@ SnapFloaterScope(
 )
 ```
 
-| Parameter          | Default         | Description                                                                                                              |
-| ------------------ | --------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `snapAlignments`   | `[bottomRight]` | Available snap targets. Drag is disabled when fewer than two                                                             |
-| `initialAlignment` | `bottomRight`   | Starting position before any interaction                                                                                 |
-| `isEnabled`        | `true`          | When `false`, the floater is hidden and `show()` has no effect                                                           |
-| `showPreview`      | `true`          | Show preview widgets at snap targets while dragging                                                                      |
-| `storage`          | `null`          | Provide to persist position across app launches                                                                          |
-| `dragMode`         | `longPress`     | How drag is initiated: `longPress` to avoid accidental drags on a tappable button, `pan` for immediate response on touch |
+| Parameter        | Default         | Description                                                                                                              |
+| ---------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `snapAlignments` | `[bottomRight]` | Available snap targets. Must not be empty. The first element is the initial position. Drag is disabled when fewer than two |
+| `isEnabled`      | `true`          | When `false`, the floater is hidden and `show()` has no effect                                                           |
+| `showPreview`    | `true`          | Show preview widgets at snap targets while dragging                                                                      |
+| `storage`        | `null`          | Provide to persist position across app launches. Without it, the floater starts at the first element of `snapAlignments` on every cold start |
+| `dragMode`       | `longPress`     | How drag is initiated: `longPress` to avoid accidental drags on a tappable button, `pan` for immediate response on touch |
+
+> **Note:** `initialAlignment` is deprecated and ignored. Put the desired starting
+> position first in `snapAlignments` instead.
 
 ## Preview animations
 

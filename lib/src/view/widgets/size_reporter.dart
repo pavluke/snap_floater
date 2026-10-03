@@ -42,9 +42,9 @@ class _SizeReporterState extends State<SizeReporter> {
 
   @override
   Widget build(BuildContext context) => _SizeReporterRenderWidget(
-    onSize: _report,
-    child: widget.child,
-  );
+        onSize: _report,
+        child: widget.child,
+      );
 }
 
 class _SizeReporterRenderWidget extends SingleChildRenderObjectWidget {

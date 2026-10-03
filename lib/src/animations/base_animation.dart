@@ -30,11 +30,11 @@ class BaseAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Transform.translate(
-    offset: targetOffset,
-    child: SnapFloaterAnimation._opacityScale(
-      isVisible: isVisible,
-      isNearest: isNearest,
-      child: child,
-    ),
-  );
+        offset: targetOffset,
+        child: SnapFloaterAnimation._opacityScale(
+          isVisible: isVisible,
+          isNearest: isNearest,
+          child: child,
+        ),
+      );
 }

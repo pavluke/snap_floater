@@ -1,3 +1,9 @@
+## 0.3.0
+
+* **BREAKING:** `SnapFloaterSettings.initialAlignment` is deprecated and now ignored.
+  The first element of `snapAlignments` is used as the initial position.
+* **BREAKING:** `snapAlignments` must not be empty (checked by an assert in `SnapFloaterController`).
+
 ## 0.2.0
 
 - Add `FloaterDragMode` enum with `longPress` and `pan` modes.

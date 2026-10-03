@@ -13,10 +13,9 @@ import '../storage/snap_floater_storage.dart';
 /// ```dart
 /// SnapFloaterSettings(
 ///   snapAlignments: [
-///     .topRight,
 ///     .bottomRight,
+///     .topRight,
 ///   ],
-///   initialAlignment: .bottomRight,
 ///   storage: SharedPreferencesStorage(),
 /// )
 /// ```
@@ -25,6 +24,10 @@ class SnapFloaterSettings {
   /// {@macro snap_floater_settings}
   const SnapFloaterSettings({
     this.dragMode = FloaterDragMode.longPress,
+    @Deprecated(
+      'Use the first element of snapAlignments instead. '
+      'The initial alignment is now the first item in snapAlignments.',
+    )
     this.initialAlignment = Alignment.bottomRight,
     this.snapAlignments = const [Alignment.bottomRight],
     this.isEnabled = true,
@@ -42,14 +45,24 @@ class SnapFloaterSettings {
   final bool showPreview;
 
   /// Storage backend for persisting position across app launches.
-  /// When `null`, position resets to [initialAlignment] on every cold start.
+  /// When `null`, position resets to the first element of [snapAlignments]
+  /// on every cold start.
   final SnapFloaterStorage? storage;
 
   /// Starting alignment before any user interaction
   /// or persisted value is loaded.
+  ///
+  /// Deprecated: the initial alignment is now the first element
+  /// of [snapAlignments]. This value is ignored.
+  @Deprecated(
+    'Use the first element of snapAlignments instead. '
+    'The initial alignment is now the first item in snapAlignments.',
+  )
   final Alignment initialAlignment;
 
   /// The alignments the floater can snap to.
+  ///
+  /// Must not be empty. The first element is used as the initial alignment.
   /// When fewer than two are provided, drag is disabled entirely.
   final List<Alignment> snapAlignments;
 

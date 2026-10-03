@@ -34,20 +34,20 @@ class SlideFloaterAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => TweenAnimationBuilder<Offset>(
-    tween: Tween<Offset>(
-      begin: currentOffset,
-      end: isVisible ? targetOffset : currentOffset,
-    ),
-    duration: const Duration(milliseconds: 300),
-    curve: Curves.easeOutCubic,
-    builder: (context, offset, child) => Transform.translate(
-      offset: offset,
-      child: child,
-    ),
-    child: SnapFloaterAnimation._opacityScale(
-      isVisible: isVisible,
-      isNearest: isNearest,
-      child: child,
-    ),
-  );
+        tween: Tween<Offset>(
+          begin: currentOffset,
+          end: isVisible ? targetOffset : currentOffset,
+        ),
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOutCubic,
+        builder: (context, offset, child) => Transform.translate(
+          offset: offset,
+          child: child,
+        ),
+        child: SnapFloaterAnimation._opacityScale(
+          isVisible: isVisible,
+          isNearest: isNearest,
+          child: child,
+        ),
+      );
 }

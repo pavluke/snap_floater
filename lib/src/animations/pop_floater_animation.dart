@@ -60,7 +60,7 @@ class _PopFloaterAnimationState extends State<PopFloaterAnimation>
   @override
   void initState() {
     super.initState();
-    if (widget.isVisible) unawaited(_controller.forward());
+    if (widget.isVisible) _controller.forward();
   }
 
   @override

@@ -30,7 +30,8 @@ abstract interface class SnapFloaterStorage {
   Future<void> write(SnapFloaterStorageModel model);
 
   /// Removes all persisted data.
-  /// The floater will reset to [SnapFloaterSettings.initialAlignment]
-  /// on the next cold start.
+  ///
+  /// The floater will reset to the first element of
+  /// [SnapFloaterSettings.snapAlignments] on the next cold start.
   Future<void> clear();
 }
