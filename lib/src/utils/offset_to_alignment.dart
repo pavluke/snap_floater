@@ -4,7 +4,7 @@ import 'package:flutter/painting.dart';
 ///
 /// Returns the alignment that places a widget of [targetSize] at [offset]
 /// inside [area] with [padding], so dragging and snapping share one mapping
-/// and the button never jumps. Degenerate (no free space) -> centre.
+/// and the button never jumps. Degenerate (no free space) -> center.
 Alignment offsetToAlignment(
   Offset offset, {
   required Size targetSize,

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../enums/floater_drag_mode.dart';
 import '../../extensions/to_screen_offset_x.dart';
