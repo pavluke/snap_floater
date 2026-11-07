@@ -16,16 +16,17 @@
 - Fix: positions are computed inside the scope's own bounds instead of the
   whole screen; no `ArgumentError` on very small areas.
 - Change: alignment now maps linearly onto the padded area like Flutter's
-  `Alignment` (`0.5` is halfway between centre and edge); previously values
+  `Alignment` (`0.5` is halfway between center and edge); previously values
   near the edge saturated and `0` ignored asymmetric padding / safe area.
 - Fix: nested `SnapFloaterScope` now fails with the intended assert message.
-- Fix: `runHidden` also hides the floater for synchronous actions.
-- Fix: `controller.isVisible` is `false` while `isEnabled` is `false`.
+- Change: `runHidden` also hides the floater for synchronous actions.
+- Change: `controller.isVisible` is `false` while `isEnabled` is `false`.
 - Fix: default button icon color uses `ColorScheme.onPrimary`.
 - Add: `==`/`hashCode` for `SnapFloaterSettings`; assert on duplicate
   `snapAlignments`.
 - Perf: `BlurFloaterAnimation` skips the blur layer when fully sharp.
-- Docs: README `builder` parameter name and version; minimum Flutter 3.28.0.
+- Docs: README `builder` parameter name and version.
+- Change: Migrate to `material_ui`.
 
 ## 0.3.1
 
