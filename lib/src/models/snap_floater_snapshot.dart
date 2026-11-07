@@ -29,14 +29,14 @@ class SnapFloaterSnapshot {
 
   /// Creates a new instance with specified fields replaced.
   SnapFloaterSnapshot copyWith({Alignment? alignment}) => SnapFloaterSnapshot(
-        alignment: alignment ?? this.alignment,
-      );
+    alignment: alignment ?? this.alignment,
+  );
 
   /// Serializes to JSON storage format.
   Map<String, dynamic> toJson() => {
-        'x': alignment.x,
-        'y': alignment.y,
-      };
+    'x': alignment.x,
+    'y': alignment.y,
+  };
 
   @override
   bool operator ==(Object other) =>
@@ -47,5 +47,8 @@ class SnapFloaterSnapshot {
   int get hashCode => alignment.hashCode;
 
   @override
-  String toString() => 'SnapFloaterSnapshot(alignment: $alignment)';
+  String toString() =>
+      'SnapFloaterSnapshot('
+      'alignment: $alignment'
+      ')';
 }

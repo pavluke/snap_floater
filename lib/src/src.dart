@@ -1,8 +1,8 @@
 export 'animations/snap_floater_animation.dart';
 export 'enums/floater_drag_mode.dart';
 export 'extensions/to_screen_offset_x.dart';
-export 'models/shap_floater_state.dart';
 export 'models/snap_floater_snapshot.dart';
+export 'models/snap_floater_state.dart';
 export 'models/snap_floater_storage_model.dart';
 export 'settings/snap_floater_settings.dart';
 export 'storage/snap_floater_storage.dart';

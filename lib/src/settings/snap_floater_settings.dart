@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
 
 import '../enums/floater_drag_mode.dart';
@@ -13,8 +14,8 @@ import '../storage/snap_floater_storage.dart';
 /// ```dart
 /// SnapFloaterSettings(
 ///   snapAlignments: [
-///     .bottomRight,
-///     .topRight,
+///     Alignment.bottomRight,
+///     Alignment.topRight,
 ///   ],
 ///   storage: SharedPreferencesStorage(),
 /// )
@@ -36,8 +37,8 @@ class SnapFloaterSettings {
   });
 
   /// Whether the floater renders at all.
-  /// When `false`, [SnapFloaterController.show]
-  /// has no effect until re-enabled via settings.
+  /// When `false`, [SnapFloaterController.isVisible] is `false` and
+  /// [SnapFloaterController.show] has no effect until re-enabled via settings.
   final bool isEnabled;
 
   /// Whether to show previews at snap targets while dragging.
@@ -69,4 +70,24 @@ class SnapFloaterSettings {
   /// How the user initiates dragging; defaults to [FloaterDragMode.longPress]
   /// to prevent accidental drags on a tappable button.
   final FloaterDragMode dragMode;
+
+  // [initialAlignment] is deprecated and ignored, so it is not compared.
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SnapFloaterSettings &&
+          dragMode == other.dragMode &&
+          isEnabled == other.isEnabled &&
+          showPreview == other.showPreview &&
+          storage == other.storage &&
+          listEquals(snapAlignments, other.snapAlignments);
+
+  @override
+  int get hashCode => Object.hash(
+    dragMode,
+    isEnabled,
+    showPreview,
+    storage,
+    Object.hashAll(snapAlignments),
+  );
 }

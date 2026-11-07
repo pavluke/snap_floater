@@ -27,7 +27,7 @@ Add snap_floater to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  snap_floater: ^0.2.0
+  snap_floater: ^0.4.0
 ```
 
 Or using the command:
@@ -67,7 +67,7 @@ MaterialApp(
 MaterialApp(
   home: const HomePage(),
   builder: (context, child) => SnapFloaterScope.builder(
-    buttonBuilder: (context) => FancyButton(
+    builder: (context) => FancyButton(
       onPressed: () => SnapFloaterScope.of(context).runHidden(
         () => someAction(),
       ),
@@ -117,13 +117,15 @@ SnapFloaterScope(
 )
 ```
 
-| Parameter        | Default         | Description                                                                                                              |
-| ---------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `snapAlignments` | `[bottomRight]` | Available snap targets. Must not be empty. The first element is the initial position. Drag is disabled when fewer than two |
-| `isEnabled`      | `true`          | When `false`, the floater is hidden and `show()` has no effect                                                           |
-| `showPreview`    | `true`          | Show preview widgets at snap targets while dragging                                                                      |
+| Parameter        | Default         | Description                                                                                                                                  |
+| ---------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `snapAlignments` | `[bottomRight]` | Available snap targets. Must not be empty. The first element is the initial position. Drag is disabled when fewer than two                   |
+| `isEnabled`      | `true`          | When `false`, the floater is hidden, `controller.isVisible` is `false` and `show()` has no effect                                            |
+| `showPreview`    | `true`          | Show preview widgets at snap targets while dragging                                                                                          |
 | `storage`        | `null`          | Provide to persist position across app launches. Without it, the floater starts at the first element of `snapAlignments` on every cold start |
-| `dragMode`       | `longPress`     | How drag is initiated: `longPress` to avoid accidental drags on a tappable button, `pan` for immediate response on touch |
+| `dragMode`       | `longPress`     | How drag is initiated: `longPress` to avoid accidental drags on a tappable button, `pan` for immediate response on touch                     |
+
+> **Note:** Saved positions that are no longer in `snapAlignments` are ignored.
 
 > **Note:** `initialAlignment` is deprecated and ignored. Put the desired starting
 > position first in `snapAlignments` instead.
@@ -163,7 +165,7 @@ Widget CustomPreview(
   offset: targetOffset,
   child: AnimatedOpacity(
     duration: const Duration(milliseconds: 200),
-    opacity: isVisible ? (isNearest ? 0.8 : 0.25) : 0.0,
+    opacity: isVisible ? (isNearest ? .8 : .25) : 0,
     child: child,
   ),
 );
@@ -179,8 +181,8 @@ SnapFloaterScope.builder(
 Implement `SnapFloaterStorage` to persist the floater's position across app launches:
 
 ```dart
-class SharedPrefsStorage implements SnapFloaterStorage {
-  SharedPrefsStorage(this._prefs);
+class Storage implements SnapFloaterStorage {
+  Storage(this._prefs);
 
   final SharedPreferences _prefs;
   static const _key = 'snap_floater_data';
@@ -209,7 +211,7 @@ SnapFloaterScope(
     await someAction();
   },
   settings: SnapFloaterSettings(
-    storage: SharedPrefsStorage(await SharedPreferences.getInstance()),
+    storage: Storage(await SharedPreferences.getInstance()),
   ),
   child: child!,
 )
@@ -224,30 +226,31 @@ SnapFloaterScope(
 - Preview widgets shown at snap targets during drag
 - Persists position across app launches via a pluggable storage interface
 - Safe area and edge padding aware
+- Positions itself inside the scope's own bounds (usually the whole app)
 - Architecturally impossible to have more than one floater per subtree
 
 ## API reference
 
 ### `SnapFloaterScope`
 
-| Member                                                                  | Description                                                      |
-| ----------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| `SnapFloaterScope({onPressed, child, ...})`                             | Default factory — renders `BasicSnapFloaterButton`               |
-| `SnapFloaterScope.builder({buttonBuilder, previewBuilder, child, ...})` | Custom button and preview                                        |
-| `SnapFloaterScope.of(context)`                                          | Returns the nearest `SnapFloaterController`. Throws if not found |
-| `SnapFloaterScope.maybeOf(context)`                                     | Returns `null` if not found                                      |
+| Member                                                            | Description                                                      |
+| ----------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `SnapFloaterScope({onPressed, child, ...})`                       | Default factory — renders `BasicSnapFloaterButton`               |
+| `SnapFloaterScope.builder({builder, previewBuilder, child, ...})` | Custom button and preview                                        |
+| `SnapFloaterScope.of(context)`                                    | Returns the nearest `SnapFloaterController`. Throws if not found |
+| `SnapFloaterScope.maybeOf(context)`                               | Returns `null` if not found                                      |
 
 ### `SnapFloaterController`
 
-| Member              | Description                                           |
-| ------------------- | ----------------------------------------------------- |
-| `alignment`         | Current snap alignment                                |
-| `isVisible`         | Whether the floater is currently visible              |
-| `isDragging`        | Whether the user is actively dragging                 |
-| `show()`            | Shows the floater                                     |
-| `hide()`            | Hides the floater                                     |
-| `snapTo(alignment)` | Snaps to a specific alignment and persists the change |
-| `runHidden(action)` | Hides while action runs, then shows again             |
+| Member              | Description                                                                                    |
+| ------------------- | ---------------------------------------------------------------------------------------------- |
+| `alignment`         | Current snap alignment                                                                         |
+| `isVisible`         | Whether the floater is currently visible                                                       |
+| `isDragging`        | Whether the user is actively dragging                                                          |
+| `show()`            | Shows the floater                                                                              |
+| `hide()`            | Hides the floater                                                                              |
+| `snapTo(alignment)` | Snaps to a specific alignment and persists the change                                          |
+| `runHidden(action)` | Hides while action runs (sync or async), then shows again; ignored while another run is active |
 
 ## Changelog
 

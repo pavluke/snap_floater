@@ -14,15 +14,16 @@ import '../../extensions/to_screen_offset_x.dart';
 ///
 /// Use one of the built-in implementations from [SnapFloaterAnimation],
 /// or supply a custom function matching this signature.
-typedef PreviewBuilder = Widget Function(
-  BuildContext context,
-  Size floaterSize,
-  Offset currentOffset,
-  Offset targetOffset,
-  bool isVisible,
-  bool isNearest,
-  Widget child,
-);
+typedef PreviewBuilder =
+    Widget Function(
+      BuildContext context,
+      Size floaterSize,
+      Offset currentOffset,
+      Offset targetOffset,
+      bool isVisible,
+      bool isNearest,
+      Widget child,
+    );
 
 /// {@template snap_preview_builder}
 /// Renders preview widgets at each snap target position during drag.
@@ -44,6 +45,7 @@ class SnapPreviewBuilder extends StatefulWidget {
     required this.floaterSize,
     required this.previewBuilder,
     super.key,
+    this.areaSize,
   });
 
   /// Whether to account for system safe area insets.
@@ -70,6 +72,9 @@ class SnapPreviewBuilder extends StatefulWidget {
   /// Builds each preview widget. See [PreviewBuilder].
   final PreviewBuilder previewBuilder;
 
+  /// Bounds the previews are positioned in. Defaults to the whole screen.
+  final Size? areaSize;
+
   @override
   State<SnapPreviewBuilder> createState() => _SnapPreviewBuilderState();
 }
@@ -88,6 +93,7 @@ class _SnapPreviewBuilderState extends State<SnapPreviewBuilder> {
       context,
       targetSize: widget.floaterSize,
       padding: _totalPadding,
+      areaSize: widget.areaSize,
     );
 
     Alignment? nearest;
@@ -98,6 +104,7 @@ class _SnapPreviewBuilderState extends State<SnapPreviewBuilder> {
         context,
         targetSize: widget.floaterSize,
         padding: _totalPadding,
+        areaSize: widget.areaSize,
       );
       final dist = (snapOffset - _currentOffset).distance;
       if (dist < minDist) {
@@ -120,6 +127,8 @@ class _SnapPreviewBuilderState extends State<SnapPreviewBuilder> {
     super.didUpdateWidget(old);
     if (old.currentAlignment != widget.currentAlignment ||
         old.floaterSize != widget.floaterSize ||
+        old.areaSize != widget.areaSize ||
+        old.padding != widget.padding ||
         old.snapAlignments != widget.snapAlignments) {
       _recalculateNearest();
     }
@@ -135,6 +144,7 @@ class _SnapPreviewBuilderState extends State<SnapPreviewBuilder> {
               context,
               targetSize: widget.floaterSize,
               padding: _totalPadding,
+              areaSize: widget.areaSize,
             );
             return widget.previewBuilder(
               context,

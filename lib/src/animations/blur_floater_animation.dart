@@ -36,23 +36,26 @@ class BlurFloaterAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Transform.translate(
-        offset: targetOffset,
-        child: TweenAnimationBuilder<double>(
-          tween: Tween<double>(
-            begin: maxBlurSigma,
-            end: isVisible ? 0.0 : maxBlurSigma,
-          ),
-          duration: const Duration(milliseconds: 350),
-          curve: Curves.easeOut,
-          builder: (context, sigma, child) => ImageFiltered(
-            imageFilter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
-            child: child,
-          ),
-          child: SnapFloaterAnimation._opacityScale(
-            isVisible: isVisible,
-            isNearest: isNearest,
-            child: child,
-          ),
-        ),
-      );
+    offset: targetOffset,
+    child: TweenAnimationBuilder<double>(
+      tween: Tween<double>(
+        begin: maxBlurSigma,
+        end: isVisible ? 0.0 : maxBlurSigma,
+      ),
+      duration: const Duration(milliseconds: 350),
+      curve: Curves.easeOut,
+      // No offscreen layer when fully sharp.
+      builder: (context, sigma, child) => sigma == 0
+          ? child ?? const SizedBox.shrink()
+          : ImageFiltered(
+              imageFilter: .blur(sigmaX: sigma, sigmaY: sigma),
+              child: child,
+            ),
+      child: SnapFloaterAnimation._opacityScale(
+        isVisible: isVisible,
+        isNearest: isNearest,
+        child: child,
+      ),
+    ),
+  );
 }

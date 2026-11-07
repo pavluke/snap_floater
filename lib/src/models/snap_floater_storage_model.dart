@@ -32,15 +32,14 @@ class SnapFloaterStorageModel {
   /// Creates a new instance with specified fields replaced.
   SnapFloaterStorageModel copyWith({
     SnapFloaterSnapshot? base,
-  }) =>
-      SnapFloaterStorageModel(
-        base: base ?? this.base,
-      );
+  }) => SnapFloaterStorageModel(
+    base: base ?? this.base,
+  );
 
   /// Serializes to JSON storage format.
   Map<String, dynamic> toJson() => {
-        'base': base.toJson(),
-      };
+    'base': base.toJson(),
+  };
 
   @override
   bool operator ==(Object other) =>
@@ -51,5 +50,8 @@ class SnapFloaterStorageModel {
   int get hashCode => base.hashCode;
 
   @override
-  String toString() => 'SnapFloaterStorageModel(base: $base)';
+  String toString() =>
+      'SnapFloaterStorageModel('
+      'base: $base'
+      ')';
 }

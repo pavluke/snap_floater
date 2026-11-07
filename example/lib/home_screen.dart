@@ -12,17 +12,21 @@ class _HomeScreenState extends State<HomeScreen> {
   SnapFloaterController? _controller;
   late SnapFloaterState state;
 
-  void _listener() => setState(() => state = _controller!.value);
+  void _listener() {
+    if (_controller?.value case final value?) {
+      setState(() => state = value);
+    }
+  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final controller = SnapFloaterScope.of(context);
-    if (_controller != null) return;
+    if (_controller == controller) return;
     _controller?.removeListener(_listener);
     _controller = controller;
     state = controller.value;
-    _controller?.addListener(_listener);
+    controller.addListener(_listener);
   }
 
   @override
@@ -50,26 +54,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+    body: SafeArea(
+      child: Center(
+        child: Column(
+          mainAxisSize: .min,
+          children: [
+            Text('Is dragging: ${state.isDragging}'),
+            Row(
+              spacing: 10,
+              mainAxisAlignment: .center,
               children: [
-                Text('Is dragging: ${state.isDragging}'),
-                Row(
-                  spacing: 10,
-                  children: [
-                    const Icon(Icons.back_hand_rounded),
-                    Text('Is visible: ${state.isVisible}'),
-                  ],
-                ),
-                Text(
-                  alignmentString,
-                ),
+                const Icon(Icons.back_hand_rounded),
+                Text('Is visible: ${state.isVisible}'),
               ],
             ),
-          ),
+            Text(
+              alignmentString,
+            ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }

@@ -11,34 +11,37 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        navigatorKey: navigatorKey,
-        home: const HomeScreen(),
-        builder: (context, child) => NewWidget(child: child),
-      );
+    navigatorKey: navigatorKey,
+    home: const HomeScreen(),
+    builder: (context, child) => SnapFloaterHost(child: child),
+  );
 }
 
-class NewWidget extends StatelessWidget {
-  const NewWidget({super.key, this.child});
+class SnapFloaterHost extends StatelessWidget {
+  const SnapFloaterHost({
+    super.key,
+    this.child,
+  });
 
   final Widget? child;
 
   @override
   Widget build(BuildContext context) => SnapFloaterScope(
-        settings: const SnapFloaterSettings(
-          dragMode: FloaterDragMode.pan,
-          snapAlignments: [
-            Alignment.bottomCenter,
-            Alignment.bottomLeft,
-            Alignment.bottomRight,
-          ],
+    settings: const SnapFloaterSettings(
+      dragMode: .pan,
+      snapAlignments: [
+        .bottomCenter,
+        .bottomLeft,
+        .bottomRight,
+      ],
+    ),
+    onPressed: () async {
+      await navigatorKey.currentState?.push(
+        MaterialPageRoute(
+          builder: (context) => const LoggerScreen(),
         ),
-        onPressed: () async {
-          await navigatorKey.currentState?.push(
-            MaterialPageRoute(
-              builder: (context) => const LoggerScreen(),
-            ),
-          );
-        },
-        child: child ?? const HomeScreen(),
       );
+    },
+    child: child,
+  );
 }

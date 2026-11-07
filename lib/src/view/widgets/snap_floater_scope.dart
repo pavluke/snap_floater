@@ -2,11 +2,12 @@ library;
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../animations/snap_floater_animation.dart';
-import '../../models/shap_floater_state.dart';
 import '../../models/snap_floater_snapshot.dart';
+import '../../models/snap_floater_state.dart';
 import '../../models/snap_floater_storage_model.dart';
 import '../../settings/snap_floater_settings.dart';
 import '../../storage/snap_floater_storage.dart';
@@ -62,19 +63,18 @@ class SnapFloaterScope extends StatefulWidget {
     EdgeInsets padding = const EdgeInsets.all(10),
     Curve curve = Curves.easeOutBack,
     Key? key,
-  }) =>
-      SnapFloaterScope._(
-        builder: (context) => BasicSnapFloaterButton(
-          () => SnapFloaterScope.of(context).runHidden(onPressed),
-        ),
-        previewBuilder: SnapFloaterAnimation.base,
-        settings: settings,
-        useSafeArea: useSafeArea,
-        padding: padding,
-        curve: curve,
-        key: key,
-        child: child,
-      );
+  }) => SnapFloaterScope._(
+    builder: (context) => BasicSnapFloaterButton(
+      () => SnapFloaterScope.of(context).runHidden(onPressed),
+    ),
+    previewBuilder: SnapFloaterAnimation.base,
+    settings: settings,
+    useSafeArea: useSafeArea,
+    padding: padding,
+    curve: curve,
+    key: key,
+    child: child,
+  );
 
   /// {@macro snap_floater_scope}
   ///
@@ -85,20 +85,19 @@ class SnapFloaterScope extends StatefulWidget {
     required Widget? child,
     SnapFloaterSettings settings = const SnapFloaterSettings(),
     bool useSafeArea = true,
-    EdgeInsets padding = const EdgeInsets.all(10),
+    EdgeInsets padding = const .all(10),
     Curve curve = Curves.easeOutBack,
     Key? key,
-  }) =>
-      SnapFloaterScope._(
-        builder: builder,
-        previewBuilder: previewBuilder,
-        settings: settings,
-        useSafeArea: useSafeArea,
-        padding: padding,
-        curve: curve,
-        key: key,
-        child: child,
-      );
+  }) => SnapFloaterScope._(
+    builder: builder,
+    previewBuilder: previewBuilder,
+    settings: settings,
+    useSafeArea: useSafeArea,
+    padding: padding,
+    curve: curve,
+    key: key,
+    child: child,
+  );
 
   const SnapFloaterScope._({
     required this.builder,
@@ -139,8 +138,8 @@ class SnapFloaterScope extends StatefulWidget {
   /// is found in the widget tree. Use [maybeOf] if presence is not guaranteed.
   /// {@endtemplate}
   static SnapFloaterController of(BuildContext context) {
-    final inherited =
-        context.dependOnInheritedWidgetOfExactType<_SnapFloaterInherited>();
+    final inherited = context
+        .dependOnInheritedWidgetOfExactType<_SnapFloaterInherited>();
 
     assert(inherited != null, 'No SnapFloaterScope found in context.');
     return inherited?.notifier ??
@@ -163,13 +162,13 @@ class _SnapFloaterScopeState extends State<SnapFloaterScope> {
     settings: widget.settings,
   );
   late Set<Alignment> _snapAlignments;
-  late Widget floaterChild;
 
   @override
   void initState() {
     super.initState();
+    // getInherited... (no dependency) is allowed in initState, unlike maybeOf.
     assert(
-      SnapFloaterScope.maybeOf(context) == null,
+      context.getInheritedWidgetOfExactType<_SnapFloaterInherited>() == null,
       'SnapFloaterScope already defined in context.',
     );
     _snapAlignments = widget.settings.snapAlignments.toSet();
@@ -178,9 +177,13 @@ class _SnapFloaterScopeState extends State<SnapFloaterScope> {
   @override
   void didUpdateWidget(SnapFloaterScope old) {
     super.didUpdateWidget(old);
-    if (old.settings.snapAlignments != widget.settings.snapAlignments) {
+    if (!listEquals(
+      old.settings.snapAlignments,
+      widget.settings.snapAlignments,
+    )) {
       _snapAlignments = widget.settings.snapAlignments.toSet();
     }
+    _controller._updateSettings(widget.settings);
   }
 
   @override
@@ -211,44 +214,58 @@ class _SnapFloaterScopeState extends State<SnapFloaterScope> {
 
     return _SnapFloaterInherited(
       notifier: _controller,
-      child: Stack(
-        children: [
-          if (widget.child case final child?) child,
-          if (_shouldShowPreview)
-            ValueListenableBuilder<SnapFloaterState>(
-              valueListenable: _controller,
-              child: floaterChild,
-              builder: (context, value, child) => SnapPreviewBuilder(
-                useSafeArea: widget.useSafeArea,
-                padding: widget.padding,
-                isVisible: value.isDragging,
-                snapAlignments: _snapAlignments,
-                currentAlignment: value.alignment,
-                floaterSize: value.childSize,
-                previewBuilder: widget.previewBuilder,
-                child: child,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          // Position inside the scope's own bounds, not the whole screen.
+          final screen = MediaQuery.sizeOf(context);
+          final area = Size(
+            constraints.maxWidth.isFinite ? constraints.maxWidth : screen.width,
+            constraints.maxHeight.isFinite
+                ? constraints.maxHeight
+                : screen.height,
+          );
+          return Stack(
+            children: [
+              ?widget.child,
+              if (_shouldShowPreview)
+                ValueListenableBuilder<SnapFloaterState>(
+                  valueListenable: _controller,
+                  child: floaterChild,
+                  builder: (context, value, child) => SnapPreviewBuilder(
+                    useSafeArea: widget.useSafeArea,
+                    padding: widget.padding,
+                    isVisible: value.isDragging,
+                    snapAlignments: _snapAlignments,
+                    currentAlignment: value.alignment,
+                    floaterSize: value.childSize,
+                    previewBuilder: widget.previewBuilder,
+                    areaSize: area,
+                    child: child,
+                  ),
+                ),
+              ValueListenableBuilder<SnapFloaterState>(
+                valueListenable: _controller,
+                child: floaterChild,
+                builder: (context, value, child) => SnapFloaterChild(
+                  dragMode: widget.settings.dragMode,
+                  alignment: value.alignment,
+                  isDragging: value.isDragging,
+                  isVisible: _isVisible(value.isVisible),
+                  snapAlignments: _snapAlignments,
+                  padding: widget.padding,
+                  onDragStart: _onDragStart,
+                  onDragUpdate: _onDragUpdate,
+                  onDragEnd: _onDragEnd,
+                  onChildSizeChanged: _onChildSizeChanged,
+                  useSafeArea: widget.useSafeArea,
+                  curve: widget.curve,
+                  areaSize: area,
+                  child: child,
+                ),
               ),
-            ),
-          ValueListenableBuilder<SnapFloaterState>(
-            valueListenable: _controller,
-            child: floaterChild,
-            builder: (context, value, child) => SnapFloaterChild(
-              dragMode: widget.settings.dragMode,
-              alignment: value.alignment,
-              isDragging: value.isDragging,
-              isVisible: _isVisible(value.isVisible),
-              snapAlignments: _snapAlignments,
-              padding: widget.padding,
-              onDragStart: _onDragStart,
-              onDragUpdate: _onDragUpdate,
-              onDragEnd: _onDragEnd,
-              onChildSizeChanged: _onChildSizeChanged,
-              useSafeArea: widget.useSafeArea,
-              curve: widget.curve,
-              child: child,
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }

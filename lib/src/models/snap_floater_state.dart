@@ -40,13 +40,12 @@ class SnapFloaterState {
     bool? isVisible,
     bool? isDragging,
     Size? childSize,
-  }) =>
-      SnapFloaterState(
-        alignment: alignment ?? this.alignment,
-        isVisible: isVisible ?? this.isVisible,
-        isDragging: isDragging ?? this.isDragging,
-        childSize: childSize ?? this.childSize,
-      );
+  }) => SnapFloaterState(
+    alignment: alignment ?? this.alignment,
+    isVisible: isVisible ?? this.isVisible,
+    isDragging: isDragging ?? this.isDragging,
+    childSize: childSize ?? this.childSize,
+  );
 
   @override
   bool operator ==(Object other) =>
@@ -61,7 +60,8 @@ class SnapFloaterState {
   int get hashCode => Object.hash(alignment, isVisible, isDragging, childSize);
 
   @override
-  String toString() => 'SnapFloaterState('
+  String toString() =>
+      'SnapFloaterState('
       'alignment: $alignment, '
       'isVisible: $isVisible, '
       'isDragging: $isDragging, '

@@ -27,20 +27,20 @@ class BasicSnapFloaterButton extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        border: Border.all(
+        border: .all(
           width: 3,
           color: adjusted,
         ),
         shape: BoxShape.circle,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(3),
+        padding: const .all(3),
         child: IconButton.filled(
-          padding: const EdgeInsets.all(15),
+          padding: const .all(15),
           onPressed: onTap,
           icon: Icon(
             Icons.code,
-            color: Theme.of(context).buttonTheme.colorScheme?.onPrimary,
+            color: Theme.of(context).colorScheme.onPrimary,
           ),
         ),
       ),
