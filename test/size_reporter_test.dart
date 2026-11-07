@@ -20,18 +20,19 @@ class _ResizableState extends State<_Resizable> {
 
   @override
   Widget build(BuildContext context) => Align(
-        alignment: Alignment.topLeft,
-        child: SizeReporter(
-          onSizeCalculated: widget.onSize,
-          child: SizedBox.fromSize(size: size),
-        ),
-      );
+    alignment: Alignment.topLeft,
+    child: SizeReporter(
+      onSizeCalculated: widget.onSize,
+      child: SizedBox.fromSize(size: size),
+    ),
+  );
 }
 
 void main() {
   group('SizeReporter', () {
-    testWidgets('reports the initial size after the first frame',
-        (tester) async {
+    testWidgets('reports the initial size after the first frame', (
+      tester,
+    ) async {
       final sizes = <Size>[];
       await tester.pumpWidget(
         Directionality(
@@ -84,8 +85,9 @@ void main() {
   });
 
   group('SnapFloaterChild size reporting', () {
-    testWidgets('[#9] onChildSizeChanged is called once per size change',
-        (tester) async {
+    testWidgets('[#9] onChildSizeChanged is called once per size change', (
+      tester,
+    ) async {
       setSurface(tester);
       final sizes = <Size>[];
       await tester.pumpWidget(

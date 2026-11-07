@@ -94,51 +94,56 @@ void main() {
       },
     );
 
-    test('[#1] dispose before storage.read() completes does not throw',
-        () async {
-      final completer = Completer<SnapFloaterStorageModel?>();
-      final storage = FakeStorage(onRead: () => completer.future);
+    test(
+      '[#1] dispose before storage.read() completes does not throw',
+      () async {
+        final completer = Completer<SnapFloaterStorageModel?>();
+        final storage = FakeStorage(onRead: () => completer.future);
 
-      final errors = await collectUncaughtErrors(() async {
-        final c = SnapFloaterController(
-          settings: SnapFloaterSettings(
-            snapAlignments: const [Alignment.bottomRight, Alignment.topLeft],
-            storage: storage,
-          ),
-        );
-        c.dispose();
-        completer.complete(storageModelAt(Alignment.topLeft));
-        await flushAsync();
-      });
+        final errors = await collectUncaughtErrors(() async {
+          final c = SnapFloaterController(
+            settings: SnapFloaterSettings(
+              snapAlignments: const [Alignment.bottomRight, Alignment.topLeft],
+              storage: storage,
+            ),
+          );
+          c.dispose();
+          completer.complete(storageModelAt(Alignment.topLeft));
+          await flushAsync();
+        });
 
-      expect(errors, isEmpty);
-    });
+        expect(errors, isEmpty);
+      },
+    );
 
-    test('[#1] storage.read() throwing does not produce an uncaught error',
-        () async {
-      final storage = FakeStorage(onRead: () async => throw StateError('io'));
+    test(
+      '[#1] storage.read() throwing does not produce an uncaught error',
+      () async {
+        final storage = FakeStorage(onRead: () async => throw StateError('io'));
 
-      late SnapFloaterController c;
-      final errors = await collectUncaughtErrors(() async {
-        c = SnapFloaterController(
-          settings: SnapFloaterSettings(
-            snapAlignments: const [Alignment.bottomRight, Alignment.topLeft],
-            storage: storage,
-          ),
-        );
-        await flushAsync();
-      });
-      addTearDown(c.dispose);
+        late SnapFloaterController c;
+        final errors = await collectUncaughtErrors(() async {
+          c = SnapFloaterController(
+            settings: SnapFloaterSettings(
+              snapAlignments: const [Alignment.bottomRight, Alignment.topLeft],
+              storage: storage,
+            ),
+          );
+          await flushAsync();
+        });
+        addTearDown(c.dispose);
 
-      expect(errors, isEmpty);
-      expect(c.alignment, Alignment.bottomRight);
-    });
+        expect(errors, isEmpty);
+        expect(c.alignment, Alignment.bottomRight);
+      },
+    );
 
     test('[#1] corrupt stored JSON does not produce an uncaught error', () {
       expect(
         () => SnapFloaterStorageModel.fromJson(const {'base': 'oops'}),
         throwsA(isA<TypeError>()),
-        reason: 'documents what a user storage impl will hit; '
+        reason:
+            'documents what a user storage impl will hit; '
             'the controller must survive it (see previous test)',
       );
     });
@@ -206,7 +211,11 @@ void main() {
       addTearDown(c.dispose);
 
       expect(errors, isEmpty);
-      expect(c.alignment, Alignment.topLeft, reason: 'UI state must not depend on I/O');
+      expect(
+        c.alignment,
+        Alignment.topLeft,
+        reason: 'UI state must not depend on I/O',
+      );
     });
 
     test('notifies listeners only when state actually changes', () {
@@ -242,12 +251,14 @@ void main() {
       expect(c.isVisible, isFalse);
     });
 
-    test('[#12] show() has no effect when isEnabled: false (as documented)',
-        () {
-      final c = makeController(isEnabled: false);
-      c.show();
-      expect(c.isVisible, isFalse);
-    });
+    test(
+      '[#12] show() has no effect when isEnabled: false (as documented)',
+      () {
+        final c = makeController(isEnabled: false);
+        c.show();
+        expect(c.isVisible, isFalse);
+      },
+    );
   });
 
   group('runHidden', () {
@@ -263,53 +274,61 @@ void main() {
       expect(c.isVisible, isTrue);
     });
 
-    test('[#10] sync action: hidden for its duration (as documented)',
-        () async {
-      final c = makeController();
-      bool? visibleInside;
+    test(
+      '[#10] sync action: hidden for its duration (as documented)',
+      () async {
+        final c = makeController();
+        bool? visibleInside;
 
-      await c.runHidden(() {
-        visibleInside = c.isVisible;
-      });
+        await c.runHidden(() {
+          visibleInside = c.isVisible;
+        });
 
-      expect(visibleInside, isFalse);
-      expect(c.isVisible, isTrue);
-    });
+        expect(visibleInside, isFalse);
+        expect(c.isVisible, isTrue);
+      },
+    );
 
-    test('async action that throws: error propagates, floater is shown',
-        () async {
-      final c = makeController();
-      await expectLater(
-        c.runHidden(() async => throw StateError('boom')),
-        throwsStateError,
-      );
-      expect(c.isVisible, isTrue);
-    });
+    test(
+      'async action that throws: error propagates, floater is shown',
+      () async {
+        final c = makeController();
+        await expectLater(
+          c.runHidden(() async => throw StateError('boom')),
+          throwsStateError,
+        );
+        expect(c.isVisible, isTrue);
+      },
+    );
 
-    test('sync action that throws: error propagates, floater is shown',
-        () async {
-      final c = makeController();
-      await expectLater(
-        c.runHidden(() => throw StateError('boom')),
-        throwsStateError,
-      );
-      expect(c.isVisible, isTrue);
-    });
+    test(
+      'sync action that throws: error propagates, floater is shown',
+      () async {
+        final c = makeController();
+        await expectLater(
+          c.runHidden(() => throw StateError('boom')),
+          throwsStateError,
+        );
+        expect(c.isVisible, isTrue);
+      },
+    );
 
-    test('[#11] re-entrant call is ignored while an action is running',
-        () async {
-      final c = makeController();
-      final gate = Completer<void>();
-      var secondRan = false;
+    test(
+      '[#11] re-entrant call is ignored while an action is running',
+      () async {
+        final c = makeController();
+        final gate = Completer<void>();
+        var secondRan = false;
 
-      final first = c.runHidden(() => gate.future);
-      await c.runHidden(() => secondRan = true);
-      expect(secondRan, isFalse);
+        final first = c.runHidden(() => gate.future);
+        await c.runHidden(() => secondRan = true);
+        expect(secondRan, isFalse);
 
-      gate.complete();
-      await first;
-      expect(c.isVisible, isTrue, reason: 'ignored call must not show early');
-    });
+        gate.complete();
+        await first;
+        expect(c.isVisible, isTrue, reason: 'ignored call must not show early');
+      },
+    );
 
     test('can run again after a previous run threw', () async {
       final c = makeController();

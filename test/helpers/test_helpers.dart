@@ -83,15 +83,14 @@ void setSurface(WidgetTester tester, [Size size = defaultSurface]) {
 Widget buildScopeApp({
   SnapFloaterSettings settings = const SnapFloaterSettings(),
   FutureOr<void> Function()? onPressed,
-}) =>
-    MaterialApp(
-      builder: (context, child) => SnapFloaterScope(
-        onPressed: onPressed ?? () {},
-        settings: settings,
-        child: child,
-      ),
-      home: const Scaffold(body: SizedBox.expand(key: contentKey)),
-    );
+}) => MaterialApp(
+  builder: (context, child) => SnapFloaterScope(
+    onPressed: onPressed ?? () {},
+    settings: settings,
+    child: child,
+  ),
+  home: const Scaffold(body: SizedBox.expand(key: contentKey)),
+);
 
 Future<void> pumpScope(
   WidgetTester tester, {
@@ -111,6 +110,6 @@ SnapFloaterController controllerOf(WidgetTester tester) =>
 
 /// The real (draggable) floater button — excludes snap previews.
 Finder get floaterFinder => find.descendant(
-      of: find.byType(SnapFloaterChild),
-      matching: find.byType(BasicSnapFloaterButton),
-    );
+  of: find.byType(SnapFloaterChild),
+  matching: find.byType(BasicSnapFloaterButton),
+);

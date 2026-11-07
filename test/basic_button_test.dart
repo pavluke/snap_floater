@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:snap_floater/snap_floater.dart';
 
 Widget _app(Widget button, {ThemeData? theme}) => MaterialApp(
-      theme: theme,
-      home: Scaffold(body: Center(child: button)),
-    );
+  theme: theme,
+  home: Scaffold(body: Center(child: button)),
+);
 
 Color? _iconColor(WidgetTester tester) =>
     tester.widget<Icon>(find.byIcon(Icons.code)).color;
@@ -22,7 +22,9 @@ void main() {
     testWidgets('null onTap renders a disabled button', (tester) async {
       await tester.pumpWidget(_app(const BasicSnapFloaterButton(null)));
       expect(
-          tester.widget<IconButton>(find.byType(IconButton)).onPressed, isNull);
+        tester.widget<IconButton>(find.byType(IconButton)).onPressed,
+        isNull,
+      );
     });
 
     testWidgets('has a border and is circular', (tester) async {
@@ -40,8 +42,9 @@ void main() {
       expect(deco.border, isNotNull);
     });
 
-    testWidgets('border is lighter in dark theme, darker in light theme',
-        (tester) async {
+    testWidgets('border is lighter in dark theme, darker in light theme', (
+      tester,
+    ) async {
       Future<double> borderLightness(Brightness b) async {
         await tester.pumpWidget(
           _app(
@@ -57,19 +60,21 @@ void main() {
         );
         // MaterialApp animates theme changes (AnimatedTheme, 200ms).
         await tester.pumpAndSettle();
-        final deco = tester
-            .widget<DecoratedBox>(
-              find
-                  .descendant(
-                    of: find.byType(BasicSnapFloaterButton),
-                    matching: find.byType(DecoratedBox),
-                  )
-                  .first,
-            )
-            .decoration as BoxDecoration;
-        final primary = Theme.of(tester.element(find.byType(IconButton)))
-            .colorScheme
-            .primary;
+        final deco =
+            tester
+                    .widget<DecoratedBox>(
+                      find
+                          .descendant(
+                            of: find.byType(BasicSnapFloaterButton),
+                            matching: find.byType(DecoratedBox),
+                          )
+                          .first,
+                    )
+                    .decoration
+                as BoxDecoration;
+        final primary = Theme.of(
+          tester.element(find.byType(IconButton)),
+        ).colorScheme.primary;
         final border = (deco.border! as Border).top.color;
         return HSLColor.fromColor(border).lightness -
             HSLColor.fromColor(primary).lightness;
@@ -79,13 +84,16 @@ void main() {
       expect(await borderLightness(Brightness.dark), greaterThan(0));
     });
 
-    testWidgets('[#16] icon color equals colorScheme.onPrimary (default theme)',
-        (tester) async {
-      await tester.pumpWidget(_app(BasicSnapFloaterButton(() {})));
-      final scheme =
-          Theme.of(tester.element(find.byIcon(Icons.code))).colorScheme;
-      expect(_iconColor(tester), scheme.onPrimary);
-    });
+    testWidgets(
+      '[#16] icon color equals colorScheme.onPrimary (default theme)',
+      (tester) async {
+        await tester.pumpWidget(_app(BasicSnapFloaterButton(() {})));
+        final scheme = Theme.of(
+          tester.element(find.byIcon(Icons.code)),
+        ).colorScheme;
+        expect(_iconColor(tester), scheme.onPrimary);
+      },
+    );
 
     testWidgets(
       '[#16] icon color is still onPrimary when buttonTheme has no colorScheme',
@@ -94,13 +102,15 @@ void main() {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
           buttonTheme: const ButtonThemeData(), // colorScheme == null
         );
-        await tester
-            .pumpWidget(_app(BasicSnapFloaterButton(() {}), theme: theme));
+        await tester.pumpWidget(
+          _app(BasicSnapFloaterButton(() {}), theme: theme),
+        );
 
         expect(
           _iconColor(tester),
           theme.colorScheme.onPrimary,
-          reason: 'Theme.buttonTheme.colorScheme is nullable and legacy; '
+          reason:
+              'Theme.buttonTheme.colorScheme is nullable and legacy; '
               'ThemeData.colorScheme is the source of truth',
         );
       },

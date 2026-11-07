@@ -36,7 +36,10 @@ void main() {
     final gesture = await startDrag(tester, FloaterDragMode.pan);
     await gesture.moveBy(const Offset(-60, -60));
     await tester.pump(const Duration(milliseconds: 100));
-    expect(find.byType(BlurFloaterAnimation), findsNWidgets(fourCorners.length));
+    expect(
+      find.byType(BlurFloaterAnimation),
+      findsNWidgets(fourCorners.length),
+    );
     await gesture.up();
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);

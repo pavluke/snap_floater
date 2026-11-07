@@ -27,11 +27,17 @@ void main() {
         childSize: Size(1, 2),
       );
       expect(s.copyWith(), s);
-      expect(s.copyWith(alignment: Alignment.center).alignment, Alignment.center);
+      expect(
+        s.copyWith(alignment: Alignment.center).alignment,
+        Alignment.center,
+      );
       expect(s.copyWith(alignment: Alignment.center).isVisible, isFalse);
       expect(s.copyWith(isVisible: true).isVisible, isTrue);
       expect(s.copyWith(isDragging: false).isDragging, isFalse);
-      expect(s.copyWith(childSize: const Size(3, 4)).childSize, const Size(3, 4));
+      expect(
+        s.copyWith(childSize: const Size(3, 4)).childSize,
+        const Size(3, 4),
+      );
     });
 
     test('toString mentions every field', () {
@@ -60,7 +66,10 @@ void main() {
       const b = SnapFloaterSnapshot(alignment: Alignment.topLeft);
       expect(a, b);
       expect(a.hashCode, b.hashCode);
-      expect(a.copyWith(alignment: Alignment.center).alignment, Alignment.center);
+      expect(
+        a.copyWith(alignment: Alignment.center).alignment,
+        Alignment.center,
+      );
       expect(a.copyWith(), a);
     });
 

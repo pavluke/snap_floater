@@ -10,8 +10,9 @@ const _twoTargets = [Alignment.bottomRight, Alignment.topLeft];
 
 void main() {
   group('lookup', () {
-    testWidgets('of() and maybeOf() return the scope controller',
-        (tester) async {
+    testWidgets('of() and maybeOf() return the scope controller', (
+      tester,
+    ) async {
       await pumpScope(tester);
       final ctx = tester.element(find.byKey(contentKey));
       expect(SnapFloaterScope.maybeOf(ctx), isNotNull);
@@ -51,7 +52,8 @@ void main() {
         expect(
           error.toString(),
           contains('SnapFloaterScope already defined in context'),
-          reason: 'maybeOf() -> dependOnInheritedWidgetOfExactType() inside '
+          reason:
+              'maybeOf() -> dependOnInheritedWidgetOfExactType() inside '
               'initState() throws a different FlutterError ("called before '
               'initState() completed") and hides the intended assert message',
         );
@@ -65,8 +67,9 @@ void main() {
       expect(floaterFinder, findsOneWidget);
     });
 
-    testWidgets('tap calls onPressed; floater hidden while the Future runs',
-        (tester) async {
+    testWidgets('tap calls onPressed; floater hidden while the Future runs', (
+      tester,
+    ) async {
       final gate = Completer<void>();
       var calls = 0;
       await pumpScope(
@@ -100,29 +103,38 @@ void main() {
       expect(calls, 0);
     });
 
-    testWidgets('isEnabled: false hides the floater, toggling restores it',
-        (tester) async {
+    testWidgets('isEnabled: false hides the floater, toggling restores it', (
+      tester,
+    ) async {
       await pumpScope(
         tester,
         settings: const SnapFloaterSettings(isEnabled: false),
       );
       expect(
-        tester.widget<SnapFloaterChild>(find.byType(SnapFloaterChild)).isVisible,
+        tester
+            .widget<SnapFloaterChild>(find.byType(SnapFloaterChild))
+            .isVisible,
         isFalse,
       );
 
       await tester.pumpWidget(buildScopeApp());
       await tester.pumpAndSettle();
       expect(
-        tester.widget<SnapFloaterChild>(find.byType(SnapFloaterChild)).isVisible,
+        tester
+            .widget<SnapFloaterChild>(find.byType(SnapFloaterChild))
+            .isVisible,
         isTrue,
       );
     });
 
-    testWidgets('childSize in the controller matches the rendered button',
-        (tester) async {
+    testWidgets('childSize in the controller matches the rendered button', (
+      tester,
+    ) async {
       await pumpScope(tester);
-      expect(controllerOf(tester).value.childSize, tester.getSize(floaterFinder));
+      expect(
+        controllerOf(tester).value.childSize,
+        tester.getSize(floaterFinder),
+      );
       expect(controllerOf(tester).value.childSize, isNot(Size.zero));
     });
   });
@@ -184,7 +196,9 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        final gesture = await tester.startGesture(tester.getCenter(floaterFinder));
+        final gesture = await tester.startGesture(
+          tester.getCenter(floaterFinder),
+        );
         await gesture.moveBy(const Offset(0, -60));
         await tester.pump();
         await gesture.moveBy(const Offset(0, -600));
@@ -206,7 +220,9 @@ void main() {
         );
         await tester.pumpWidget(
           buildScopeApp(
-            settings: const SnapFloaterSettings(snapAlignments: [..._twoTargets]),
+            settings: const SnapFloaterSettings(
+              snapAlignments: [..._twoTargets],
+            ),
           ),
         );
         await tester.pumpAndSettle();
@@ -268,7 +284,8 @@ void main() {
           container.contains(floater.topLeft) &&
               container.contains(floater.bottomRight),
           isTrue,
-          reason: 'positions are computed from MediaQuery.sizeOf (screen), '
+          reason:
+              'positions are computed from MediaQuery.sizeOf (screen), '
               "not from the scope's own constraints: container=$container "
               'floater=$floater',
         );

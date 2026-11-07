@@ -12,9 +12,9 @@ import 'package:snap_floater/snap_floater.dart';
 const _child = SizedBox(width: 20, height: 20, key: Key('preview_child'));
 
 Widget _host(Widget preview) => Directionality(
-      textDirection: TextDirection.ltr,
-      child: Stack(children: [preview]),
-    );
+  textDirection: TextDirection.ltr,
+  child: Stack(children: [preview]),
+);
 
 /// Painted width — `getSize` returns the layout size and ignores Transform.
 double _paintedWidth(WidgetTester tester, Finder f) =>
@@ -81,7 +81,10 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      expect(tester.widget<AnimatedScale>(find.byType(AnimatedScale)).scale, 0.85);
+      expect(
+        tester.widget<AnimatedScale>(find.byType(AnimatedScale)).scale,
+        0.85,
+      );
     });
   });
 
@@ -115,7 +118,10 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      expect(tester.getTopLeft(find.byKey(_child.key!)), const Offset(300, 600));
+      expect(
+        tester.getTopLeft(find.byKey(_child.key!)),
+        const Offset(300, 600),
+      );
     });
   });
 
@@ -156,16 +162,17 @@ void main() {
       expect(maxWidth, greaterThan(20));
     });
 
-    testWidgets('toggling isVisible does not throw / leak the ticker',
-        (tester) async {
+    testWidgets('toggling isVisible does not throw / leak the ticker', (
+      tester,
+    ) async {
       Widget build(bool v) => _host(
-            PopFloaterAnimation(
-              targetOffset: Offset.zero,
-              isVisible: v,
-              isNearest: true,
-              child: _child,
-            ),
-          );
+        PopFloaterAnimation(
+          targetOffset: Offset.zero,
+          isVisible: v,
+          isNearest: true,
+          child: _child,
+        ),
+      );
       await tester.pumpWidget(build(false));
       await tester.pumpWidget(build(true));
       await tester.pump(const Duration(milliseconds: 100));
@@ -177,8 +184,9 @@ void main() {
   });
 
   group('BlurFloaterAnimation (widget directly)', () {
-    testWidgets('visible: ends fully sharp, hidden: ends fully blurred',
-        (tester) async {
+    testWidgets('visible: ends fully sharp, hidden: ends fully blurred', (
+      tester,
+    ) async {
       Future<double> sigmaFor(bool visible) async {
         await tester.pumpWidget(
           _host(
@@ -205,8 +213,9 @@ void main() {
       expect(await sigmaFor(false), 12.0);
     });
 
-    testWidgets('[#15] sigma == 0 should not leave an ImageFiltered layer',
-        (tester) async {
+    testWidgets('[#15] sigma == 0 should not leave an ImageFiltered layer', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         _host(
           const BlurFloaterAnimation(
@@ -222,7 +231,8 @@ void main() {
       expect(
         find.byType(ImageFiltered),
         findsNothing,
-        reason: 'a zero-sigma blur still allocates an offscreen layer for '
+        reason:
+            'a zero-sigma blur still allocates an offscreen layer for '
             'every preview on every frame',
       );
     });

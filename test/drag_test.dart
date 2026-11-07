@@ -8,18 +8,22 @@ import 'helpers/test_helpers.dart';
 
 void main() {
   for (final mode in FloaterDragMode.values) {
-    final settings = mode == FloaterDragMode.pan ? panSettings : longPressSettings;
+    final settings = mode == FloaterDragMode.pan
+        ? panSettings
+        : longPressSettings;
 
     group('drag [$mode]', () {
-      testWidgets('starts at the first snap alignment, not dragging',
-          (tester) async {
+      testWidgets('starts at the first snap alignment, not dragging', (
+        tester,
+      ) async {
         await pumpScope(tester, settings: settings);
         expect(controllerOf(tester).alignment, Alignment.bottomRight);
         expect(controllerOf(tester).isDragging, isFalse);
       });
 
-      testWidgets('isDragging is true while the finger is down and moving',
-          (tester) async {
+      testWidgets('isDragging is true while the finger is down and moving', (
+        tester,
+      ) async {
         await pumpScope(tester, settings: settings);
         final gesture = await startDrag(tester, mode);
         await gesture.moveBy(const Offset(-60, -60));
@@ -32,8 +36,9 @@ void main() {
         expect(controllerOf(tester).isDragging, isFalse);
       });
 
-      testWidgets('[visual] button follows the finger 1:1 while dragging',
-          (tester) async {
+      testWidgets('[visual] button follows the finger 1:1 while dragging', (
+        tester,
+      ) async {
         await pumpScope(tester, settings: settings);
         final gesture = await startDrag(tester, mode);
         await gesture.moveBy(const Offset(-60, -60));
@@ -63,8 +68,9 @@ void main() {
         expect(controllerOf(tester).alignment, Alignment.topLeft);
       });
 
-      testWidgets('release near bottom-left snaps to bottomLeft',
-          (tester) async {
+      testWidgets('release near bottom-left snaps to bottomLeft', (
+        tester,
+      ) async {
         await pumpScope(tester, settings: settings);
         final gesture = await startDrag(tester, mode);
         await gesture.moveBy(const Offset(-60, 0));
@@ -141,7 +147,8 @@ void main() {
           expect(
             controllerOf(tester).isDragging,
             isFalse,
-            reason: 'only onPanEnd / onLongPressEnd are wired; the *Cancel '
+            reason:
+                'only onPanEnd / onLongPressEnd are wired; the *Cancel '
                 'callbacks are not, so _dragEnd() is never called',
           );
         },
@@ -195,7 +202,9 @@ void main() {
   group('drag mode semantics', () {
     testWidgets('longPress mode: a quick swipe does not drag', (tester) async {
       await pumpScope(tester, settings: longPressSettings);
-      final gesture = await tester.startGesture(tester.getCenter(floaterFinder));
+      final gesture = await tester.startGesture(
+        tester.getCenter(floaterFinder),
+      );
       await gesture.moveBy(const Offset(-200, -200));
       await tester.pump();
       expect(controllerOf(tester).isDragging, isFalse);
@@ -224,10 +233,13 @@ void main() {
       expect(calls, 1);
     });
 
-    testWidgets('longPress held without moving does not change alignment',
-        (tester) async {
+    testWidgets('longPress held without moving does not change alignment', (
+      tester,
+    ) async {
       await pumpScope(tester, settings: longPressSettings);
-      final gesture = await tester.startGesture(tester.getCenter(floaterFinder));
+      final gesture = await tester.startGesture(
+        tester.getCenter(floaterFinder),
+      );
       await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
       await gesture.up();
       await tester.pumpAndSettle();
@@ -237,8 +249,9 @@ void main() {
   });
 
   group('previews while dragging', () {
-    testWidgets('previews are hidden at rest and visible during drag',
-        (tester) async {
+    testWidgets('previews are hidden at rest and visible during drag', (
+      tester,
+    ) async {
       final recorder = PreviewRecorder();
       await pumpRecordingScope(tester, recorder: recorder);
 
@@ -256,8 +269,9 @@ void main() {
       expect(recorder.calls.last.isVisible, isFalse);
     });
 
-    testWidgets('one call per snap target, exactly one is nearest',
-        (tester) async {
+    testWidgets('one call per snap target, exactly one is nearest', (
+      tester,
+    ) async {
       final recorder = PreviewRecorder();
       await pumpRecordingScope(tester, recorder: recorder);
 
@@ -299,8 +313,9 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('showPreview: false -> previewBuilder is never called',
-        (tester) async {
+    testWidgets('showPreview: false -> previewBuilder is never called', (
+      tester,
+    ) async {
       final recorder = PreviewRecorder();
       await pumpRecordingScope(
         tester,
