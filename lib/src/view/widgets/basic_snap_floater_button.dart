@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// {@template basic_snap_floater_button}
 /// The default floater button used by [SnapFloaterScope].
