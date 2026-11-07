@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class LoggerScreen extends StatelessWidget {
   const LoggerScreen({super.key});

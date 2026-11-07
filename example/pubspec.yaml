@@ -12,6 +12,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  material_ui: ^1.10.0
   snap_floater:
     path: ../
 
