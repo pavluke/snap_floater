@@ -21,6 +21,7 @@ import '../storage/snap_floater_storage.dart';
 /// )
 /// ```
 /// {@endtemplate}
+@immutable
 class SnapFloaterSettings {
   /// {@macro snap_floater_settings}
   const SnapFloaterSettings({
