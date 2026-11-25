@@ -191,7 +191,7 @@ class _SnapFloaterChildState extends State<SnapFloaterChild> {
             child: Listener(
               onPointerCancel: (_) => _handleDragEnd(),
               child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
+                behavior: .opaque,
                 onLongPressStart: isLongPress && !_isDragDisabled
                     ? (d) => _handleDragStart(d.globalPosition)
                     : null,

@@ -16,7 +16,7 @@ class BasicSnapFloaterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme.primary;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = Theme.of(context).brightness == .dark;
     final hsl = HSLColor.fromColor(color);
 
     final adjusted = hsl
@@ -31,7 +31,7 @@ class BasicSnapFloaterButton extends StatelessWidget {
           width: 3,
           color: adjusted,
         ),
-        shape: BoxShape.circle,
+        shape: .circle,
       ),
       child: Padding(
         padding: const .all(3),
