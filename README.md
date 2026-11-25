@@ -56,7 +56,7 @@ MaterialApp(
     onPressed: () async {
       await someAction();
     },
-    child: child!,
+    child: child,
   ),
 );
 ```
@@ -73,7 +73,7 @@ MaterialApp(
       ),
     ),
     previewBuilder: SnapFloaterAnimation.blur,
-    child: child!,
+    child: child,
   ),
 );
 ```
@@ -85,7 +85,7 @@ final controller = SnapFloaterScope.of(context);
 
 controller.show();
 controller.hide();
-controller.snapTo(Alignment.topRight);
+controller.snapTo(.topRight);
 
 // Hide while async work runs, show again when done — even if it throws
 await controller.runHidden(() async {
@@ -104,16 +104,16 @@ SnapFloaterScope(
   },
   settings: const SnapFloaterSettings(
     snapAlignments: [
-      Alignment.bottomRight, // initial position
-      Alignment.topRight,
-      Alignment.bottomLeft,
-      Alignment.topLeft,
+      .bottomRight, // initial position
+      .topRight,
+      .bottomLeft,
+      .topLeft,
     ],
     isEnabled: true,
     showPreview: true,
     storage: MyStorage(),
   ),
-  child: child!,
+  child: child,
 )
 ```
 
@@ -213,7 +213,7 @@ SnapFloaterScope(
   settings: SnapFloaterSettings(
     storage: Storage(await SharedPreferences.getInstance()),
   ),
-  child: child!,
+  child: child,
 )
 ```
 
