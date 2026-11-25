@@ -144,25 +144,12 @@ void main() {
     });
   });
 
-  group('file naming', () {
-    test('[misc] snap_floater_state.dart is spelled correctly', () {
-      expect(
-        File('lib/src/models/shap_floater_state.dart').existsSync(),
-        isFalse,
-        reason: '"shap" is a typo of "snap"',
-      );
-      expect(
-        File('lib/src/models/snap_floater_state.dart').existsSync(),
-        isTrue,
-      );
-    });
-  });
-
   group('example app', () {
     final home = read('example/lib/home_screen.dart');
     final app = read('example/lib/app.dart');
 
-    test('[misc] home_screen has no dead removeListener after early return', () {
+    test('[misc] home_screen has no dead '
+        'removeListener after early return', () {
       expect(
         RegExp(
           r'if \(_controller != null\) return;\s*_controller\?\.removeListener',

@@ -1,5 +1,5 @@
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:snap_floater/snap_floater.dart';
 
 /// Pumps a [MediaQuery] of [screen] size and returns a context below it.
@@ -31,11 +31,11 @@ void main() {
       Offset at(Alignment a) =>
           a.toScreenOffset(ctx, targetSize: button, padding: padding);
 
-      expect(at(Alignment.topLeft), const Offset(10, 10));
-      expect(at(Alignment.topRight), const Offset(400 - 60 - 10, 10));
-      expect(at(Alignment.bottomLeft), const Offset(10, 800 - 60 - 10));
+      expect(at(.topLeft), const Offset(10, 10));
+      expect(at(.topRight), const Offset(400 - 60 - 10, 10));
+      expect(at(.bottomLeft), const Offset(10, 800 - 60 - 10));
       expect(
-        at(Alignment.bottomRight),
+        at(.bottomRight),
         const Offset(400 - 60 - 10, 800 - 60 - 10),
       );
     });

@@ -5,8 +5,8 @@
 
 import 'dart:ui' show ImageFilter;
 
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:snap_floater/snap_floater.dart';
 
 const _child = SizedBox(width: 20, height: 20, key: Key('preview_child'));

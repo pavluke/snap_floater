@@ -1,19 +1,19 @@
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:snap_floater/snap_floater.dart';
 
 void main() {
   group('SnapFloaterState', () {
     test('value equality and hashCode', () {
-      const a = SnapFloaterState(alignment: Alignment.topLeft);
-      const b = SnapFloaterState(alignment: Alignment.topLeft);
+      const a = SnapFloaterState(alignment: .topLeft);
+      const b = SnapFloaterState(alignment: .topLeft);
       expect(a, b);
       expect(a.hashCode, b.hashCode);
       expect(a == a.copyWith(isDragging: true), isFalse);
     });
 
     test('defaults', () {
-      const s = SnapFloaterState(alignment: Alignment.center);
+      const s = SnapFloaterState(alignment: .center);
       expect(s.isVisible, isTrue);
       expect(s.isDragging, isFalse);
       expect(s.childSize, Size.zero);
@@ -21,17 +21,17 @@ void main() {
 
     test('copyWith replaces only given fields', () {
       const s = SnapFloaterState(
-        alignment: Alignment.topLeft,
+        alignment: .topLeft,
         isVisible: false,
         isDragging: true,
         childSize: Size(1, 2),
       );
       expect(s.copyWith(), s);
       expect(
-        s.copyWith(alignment: Alignment.center).alignment,
+        s.copyWith(alignment: .center).alignment,
         Alignment.center,
       );
-      expect(s.copyWith(alignment: Alignment.center).isVisible, isFalse);
+      expect(s.copyWith(alignment: .center).isVisible, isFalse);
       expect(s.copyWith(isVisible: true).isVisible, isTrue);
       expect(s.copyWith(isDragging: false).isDragging, isFalse);
       expect(
@@ -41,7 +41,7 @@ void main() {
     });
 
     test('toString mentions every field', () {
-      const s = SnapFloaterState(alignment: Alignment.topLeft);
+      const s = SnapFloaterState(alignment: .topLeft);
       final text = s.toString();
       expect(text, contains('alignment'));
       expect(text, contains('isVisible'));
@@ -62,12 +62,12 @@ void main() {
     });
 
     test('equality, hashCode, copyWith', () {
-      const a = SnapFloaterSnapshot(alignment: Alignment.topLeft);
-      const b = SnapFloaterSnapshot(alignment: Alignment.topLeft);
+      const a = SnapFloaterSnapshot(alignment: .topLeft);
+      const b = SnapFloaterSnapshot(alignment: .topLeft);
       expect(a, b);
       expect(a.hashCode, b.hashCode);
       expect(
-        a.copyWith(alignment: Alignment.center).alignment,
+        a.copyWith(alignment: .center).alignment,
         Alignment.center,
       );
       expect(a.copyWith(), a);
@@ -84,7 +84,7 @@ void main() {
   group('SnapFloaterStorageModel', () {
     test('JSON round trip through nested snapshot', () {
       const m = SnapFloaterStorageModel(
-        base: SnapFloaterSnapshot(alignment: Alignment.bottomLeft),
+        base: SnapFloaterSnapshot(alignment: .bottomLeft),
       );
       expect(m.toJson(), {
         'base': {'x': -1.0, 'y': 1.0},
@@ -94,16 +94,16 @@ void main() {
 
     test('equality, hashCode, copyWith', () {
       const a = SnapFloaterStorageModel(
-        base: SnapFloaterSnapshot(alignment: Alignment.topLeft),
+        base: SnapFloaterSnapshot(alignment: .topLeft),
       );
       const b = SnapFloaterStorageModel(
-        base: SnapFloaterSnapshot(alignment: Alignment.topLeft),
+        base: SnapFloaterSnapshot(alignment: .topLeft),
       );
       expect(a, b);
       expect(a.hashCode, b.hashCode);
       expect(
         a.copyWith(
-          base: const SnapFloaterSnapshot(alignment: Alignment.center),
+          base: const SnapFloaterSnapshot(alignment: .center),
         ),
         isNot(a),
       );
@@ -123,10 +123,10 @@ void main() {
     test('[misc] two non-const instances with equal content are equal', () {
       // Not const on purpose: const would canonicalize and hide the missing ==.
       const a = SnapFloaterSettings(
-        snapAlignments: [Alignment.topLeft, Alignment.bottomRight],
+        snapAlignments: [.topLeft, .bottomRight],
       );
       const b = SnapFloaterSettings(
-        snapAlignments: [Alignment.topLeft, Alignment.bottomRight],
+        snapAlignments: [.topLeft, .bottomRight],
       );
       expect(a, b);
       expect(a.hashCode, b.hashCode);

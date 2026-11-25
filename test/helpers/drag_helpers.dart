@@ -1,15 +1,15 @@
 import 'package:flutter/gestures.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:snap_floater/snap_floater.dart';
 
 import 'test_helpers.dart';
 
 const List<Alignment> fourCorners = [
-  Alignment.bottomRight, // initial
-  Alignment.bottomLeft,
-  Alignment.topRight,
-  Alignment.topLeft,
+  .bottomRight, // initial
+  .bottomLeft,
+  .topRight,
+  .topLeft,
 ];
 
 const SnapFloaterSettings panSettings = SnapFloaterSettings(
@@ -22,10 +22,10 @@ const SnapFloaterSettings longPressSettings = SnapFloaterSettings(
 );
 
 /// Puts a finger on the floater. In long-press mode also waits until the
-/// long-press is recognised. In pan mode the drag starts on the first move.
+/// long-press is recognized. In pan mode the drag starts on the first move.
 Future<TestGesture> startDrag(WidgetTester tester, FloaterDragMode mode) async {
   final gesture = await tester.startGesture(tester.getCenter(floaterFinder));
-  if (mode == FloaterDragMode.longPress) {
+  if (mode == .longPress) {
     await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
   }
   return gesture;

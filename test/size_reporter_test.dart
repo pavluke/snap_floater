@@ -1,5 +1,5 @@
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:snap_floater/snap_floater.dart';
 
 import 'helpers/drag_helpers.dart';
@@ -20,7 +20,7 @@ class _ResizableState extends State<_Resizable> {
 
   @override
   Widget build(BuildContext context) => Align(
-    alignment: Alignment.topLeft,
+    alignment: .topLeft,
     child: SizeReporter(
       onSizeCalculated: widget.onSize,
       child: SizedBox.fromSize(size: size),
@@ -96,12 +96,12 @@ void main() {
             body: Stack(
               children: [
                 SnapFloaterChild(
-                  dragMode: FloaterDragMode.pan,
+                  dragMode: .pan,
                   curve: Curves.linear,
                   useSafeArea: false,
-                  padding: EdgeInsets.zero,
-                  snapAlignments: {Alignment.topLeft, Alignment.topRight},
-                  alignment: Alignment.topLeft,
+                  padding: .zero,
+                  snapAlignments: {.topLeft, .topRight},
+                  alignment: .topLeft,
                   isDragging: false,
                   isVisible: true,
                   onDragStart: () {},

@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:snap_floater/snap_floater.dart';
 
 /// In-memory [SnapFloaterStorage] with hooks to simulate slow or failing I/O.
@@ -54,7 +54,7 @@ Future<List<Object>> collectUncaughtErrors(
     () async {
       try {
         await body();
-      } catch (e) {
+      } on Object catch (e) {
         errors.add(e);
       }
     },

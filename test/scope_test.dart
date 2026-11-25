@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:snap_floater/snap_floater.dart';
 
 import 'helpers/test_helpers.dart';
 
-const _twoTargets = [Alignment.bottomRight, Alignment.topLeft];
+const _twoTargets = <Alignment>[.bottomRight, .topLeft];
 
 void main() {
   group('lookup', () {
@@ -163,7 +163,7 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        controllerOf(tester).snapTo(Alignment.topLeft);
+        controllerOf(tester).snapTo(.topLeft);
         await tester.pump();
 
         expect(
@@ -181,16 +181,16 @@ void main() {
         await pumpScope(
           tester,
           settings: const SnapFloaterSettings(
-            dragMode: FloaterDragMode.pan,
-            snapAlignments: [Alignment.bottomRight, Alignment.bottomLeft],
+            dragMode: .pan,
+            snapAlignments: [.bottomRight, .bottomLeft],
           ),
         );
 
         await tester.pumpWidget(
           buildScopeApp(
             settings: const SnapFloaterSettings(
-              dragMode: FloaterDragMode.pan,
-              snapAlignments: [Alignment.bottomRight, Alignment.topRight],
+              dragMode: .pan,
+              snapAlignments: [.bottomRight, .topRight],
             ),
           ),
         );
@@ -246,7 +246,7 @@ void main() {
         );
 
         await tester.pumpWidget(const SizedBox());
-        completer.complete(storageModelAt(Alignment.topLeft));
+        completer.complete(storageModelAt(.topLeft));
         await tester.pump();
         await tester.pump();
 

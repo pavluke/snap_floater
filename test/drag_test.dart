@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:snap_floater/snap_floater.dart';
 
 import 'helpers/drag_helpers.dart';
@@ -8,9 +8,7 @@ import 'helpers/test_helpers.dart';
 
 void main() {
   for (final mode in FloaterDragMode.values) {
-    final settings = mode == FloaterDragMode.pan
-        ? panSettings
-        : longPressSettings;
+    final settings = mode == .pan ? panSettings : longPressSettings;
 
     group('drag [$mode]', () {
       testWidgets('starts at the first snap alignment, not dragging', (
@@ -258,7 +256,7 @@ void main() {
       expect(recorder.calls, isNotEmpty);
       expect(recorder.calls.every((c) => !c.isVisible), isTrue);
 
-      final gesture = await startDrag(tester, FloaterDragMode.pan);
+      final gesture = await startDrag(tester, .pan);
       await gesture.moveBy(const Offset(-60, -60));
       await tester.pump();
 
@@ -275,7 +273,7 @@ void main() {
       final recorder = PreviewRecorder();
       await pumpRecordingScope(tester, recorder: recorder);
 
-      final gesture = await startDrag(tester, FloaterDragMode.pan);
+      final gesture = await startDrag(tester, .pan);
       await gesture.moveBy(const Offset(-60, -60));
       await tester.pump();
       recorder.calls.clear();
@@ -298,7 +296,7 @@ void main() {
       final recorder = PreviewRecorder();
       await pumpRecordingScope(tester, recorder: recorder);
 
-      final gesture = await startDrag(tester, FloaterDragMode.pan);
+      final gesture = await startDrag(tester, .pan);
       await gesture.moveBy(const Offset(-60, 0));
       await tester.pump();
       await gesture.moveBy(const Offset(-600, 0));
@@ -321,12 +319,12 @@ void main() {
         tester,
         recorder: recorder,
         settings: const SnapFloaterSettings(
-          dragMode: FloaterDragMode.pan,
+          dragMode: .pan,
           snapAlignments: fourCorners,
           showPreview: false,
         ),
       );
-      final gesture = await startDrag(tester, FloaterDragMode.pan);
+      final gesture = await startDrag(tester, .pan);
       await gesture.moveBy(const Offset(-60, -60));
       await tester.pump();
       await gesture.up();
@@ -340,7 +338,7 @@ void main() {
         tester,
         recorder: recorder,
         settings: const SnapFloaterSettings(
-          dragMode: FloaterDragMode.pan,
+          dragMode: .pan,
         ),
       );
       expect(recorder.calls, isEmpty);

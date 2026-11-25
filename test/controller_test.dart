@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:snap_floater/snap_floater.dart';
 
 import 'helpers/test_helpers.dart';
 
 SnapFloaterController makeController({
-  List<Alignment> alignments = const [Alignment.bottomRight, Alignment.topLeft],
+  List<Alignment> alignments = const [.bottomRight, .topLeft],
   SnapFloaterStorage? storage,
   bool isEnabled = true,
 }) {
@@ -21,7 +21,7 @@ SnapFloaterController makeController({
   addTearDown(() {
     try {
       controller.dispose();
-    } catch (_) {
+    } on Object {
       // already disposed by the test itself
     }
   });
@@ -32,7 +32,7 @@ void main() {
   group('construction', () {
     test('initial alignment is the first element of snapAlignments', () {
       final c = makeController(
-        alignments: const [Alignment.topLeft, Alignment.bottomRight],
+        alignments: const [.topLeft, .bottomRight],
       );
       expect(c.alignment, Alignment.topLeft);
       expect(c.isVisible, isTrue);
@@ -53,7 +53,7 @@ void main() {
       expect(
         () => SnapFloaterController(
           settings: const SnapFloaterSettings(
-            snapAlignments: [Alignment.topLeft, Alignment.topLeft],
+            snapAlignments: [.topLeft, .topLeft],
           ),
         ),
         throwsAssertionError,
@@ -63,7 +63,7 @@ void main() {
 
   group('storage restore', () {
     test('restores a saved alignment that is in snapAlignments', () async {
-      final storage = FakeStorage(stored: storageModelAt(Alignment.topLeft));
+      final storage = FakeStorage(stored: storageModelAt(.topLeft));
       final c = makeController(storage: storage);
       await flushAsync();
       expect(c.alignment, Alignment.topLeft);
@@ -79,10 +79,10 @@ void main() {
       '[#2] saved alignment that is NOT in snapAlignments is not restored',
       () async {
         final storage = FakeStorage(
-          stored: storageModelAt(Alignment.topCenter),
+          stored: storageModelAt(.topCenter),
         );
         final c = makeController(
-          alignments: const [Alignment.bottomRight, Alignment.bottomLeft],
+          alignments: const [.bottomRight, .bottomLeft],
           storage: storage,
         );
         await flushAsync();
@@ -101,14 +101,13 @@ void main() {
         final storage = FakeStorage(onRead: () => completer.future);
 
         final errors = await collectUncaughtErrors(() async {
-          final c = SnapFloaterController(
+          SnapFloaterController(
             settings: SnapFloaterSettings(
-              snapAlignments: const [Alignment.bottomRight, Alignment.topLeft],
+              snapAlignments: const [.bottomRight, .topLeft],
               storage: storage,
             ),
-          );
-          c.dispose();
-          completer.complete(storageModelAt(Alignment.topLeft));
+          ).dispose();
+          completer.complete(storageModelAt(.topLeft));
           await flushAsync();
         });
 
@@ -125,7 +124,7 @@ void main() {
         final errors = await collectUncaughtErrors(() async {
           c = SnapFloaterController(
             settings: SnapFloaterSettings(
-              snapAlignments: const [Alignment.bottomRight, Alignment.topLeft],
+              snapAlignments: const [.bottomRight, .topLeft],
               storage: storage,
             ),
           );
@@ -155,15 +154,13 @@ void main() {
         final storage = FakeStorage(onRead: () => completer.future);
         final c = makeController(
           alignments: const [
-            Alignment.bottomRight,
-            Alignment.topLeft,
-            Alignment.bottomLeft,
+            .bottomRight,
+            .topLeft,
+            .bottomLeft,
           ],
           storage: storage,
-        );
-
-        c.snapTo(Alignment.topLeft);
-        completer.complete(storageModelAt(Alignment.bottomLeft));
+        )..snapTo(.topLeft);
+        completer.complete(storageModelAt(.bottomLeft));
         await flushAsync();
 
         expect(c.alignment, Alignment.topLeft);
@@ -177,7 +174,7 @@ void main() {
       final c = makeController(storage: storage);
       await flushAsync();
 
-      c.snapTo(Alignment.topLeft);
+      c.snapTo(.topLeft);
       await flushAsync();
 
       expect(c.alignment, Alignment.topLeft);
@@ -186,8 +183,7 @@ void main() {
     });
 
     test('works without storage', () {
-      final c = makeController();
-      c.snapTo(Alignment.topLeft);
+      final c = makeController()..snapTo(.topLeft);
       expect(c.alignment, Alignment.topLeft);
     });
 
@@ -200,12 +196,12 @@ void main() {
       final errors = await collectUncaughtErrors(() async {
         c = SnapFloaterController(
           settings: SnapFloaterSettings(
-            snapAlignments: const [Alignment.bottomRight, Alignment.topLeft],
+            snapAlignments: const [.bottomRight, .topLeft],
             storage: storage,
           ),
         );
         await flushAsync();
-        c.snapTo(Alignment.topLeft);
+        c.snapTo(.topLeft);
         await flushAsync();
       });
       addTearDown(c.dispose);
@@ -221,26 +217,27 @@ void main() {
     test('notifies listeners only when state actually changes', () {
       final c = makeController();
       var calls = 0;
-      c.addListener(() => calls++);
-
-      c.snapTo(Alignment.topLeft);
-      c.snapTo(Alignment.topLeft);
+      c
+        ..addListener(() => calls++)
+        ..snapTo(.topLeft)
+        ..snapTo(.topLeft);
       expect(calls, 1);
 
-      c.hide();
-      c.hide();
+      c
+        ..hide()
+        ..hide();
       expect(calls, 2);
 
-      c.show();
-      c.show();
+      c
+        ..show()
+        ..show();
       expect(calls, 3);
     });
   });
 
   group('show / hide / isEnabled', () {
     test('hide() and show() toggle visibility', () {
-      final c = makeController();
-      c.hide();
+      final c = makeController()..hide();
       expect(c.isVisible, isFalse);
       c.show();
       expect(c.isVisible, isTrue);
@@ -254,8 +251,7 @@ void main() {
     test(
       '[#12] show() has no effect when isEnabled: false (as documented)',
       () {
-        final c = makeController(isEnabled: false);
-        c.show();
+        final c = makeController(isEnabled: false)..show();
         expect(c.isVisible, isFalse);
       },
     );
@@ -294,7 +290,7 @@ void main() {
       () async {
         final c = makeController();
         await expectLater(
-          c.runHidden(() async => throw StateError('boom')),
+          c.runHidden(() => throw StateError('boom')),
           throwsStateError,
         );
         expect(c.isVisible, isTrue);
@@ -333,7 +329,7 @@ void main() {
     test('can run again after a previous run threw', () async {
       final c = makeController();
       await expectLater(
-        c.runHidden(() async => throw StateError('boom')),
+        c.runHidden(() => throw StateError('boom')),
         throwsStateError,
       );
 

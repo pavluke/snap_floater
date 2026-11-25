@@ -1,5 +1,5 @@
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:snap_floater/snap_floater.dart';
 
 Widget _app(Widget button, {ThemeData? theme}) => MaterialApp(
