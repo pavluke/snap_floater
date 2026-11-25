@@ -36,7 +36,7 @@ void main() {
       final sizes = <Size>[];
       await tester.pumpWidget(
         Directionality(
-          textDirection: TextDirection.ltr,
+          textDirection: .ltr,
           child: _Resizable(onSize: sizes.add),
         ),
       );
@@ -49,7 +49,7 @@ void main() {
       final key = GlobalKey<_ResizableState>();
       await tester.pumpWidget(
         Directionality(
-          textDirection: TextDirection.ltr,
+          textDirection: .ltr,
           child: _Resizable(key: key, onSize: sizes.add),
         ),
       );
@@ -72,7 +72,7 @@ void main() {
       final sizes = <Size>[];
       await tester.pumpWidget(
         Directionality(
-          textDirection: TextDirection.ltr,
+          textDirection: .ltr,
           child: _Resizable(onSize: sizes.add),
         ),
       );

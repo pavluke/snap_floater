@@ -12,7 +12,7 @@ import 'package:snap_floater/snap_floater.dart';
 const _child = SizedBox(width: 20, height: 20, key: Key('preview_child'));
 
 Widget _host(Widget preview) => Directionality(
-  textDirection: TextDirection.ltr,
+  textDirection: .ltr,
   child: Stack(children: [preview]),
 );
 

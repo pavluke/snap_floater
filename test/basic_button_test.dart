@@ -80,8 +80,8 @@ void main() {
             HSLColor.fromColor(primary).lightness;
       }
 
-      expect(await borderLightness(Brightness.light), lessThan(0));
-      expect(await borderLightness(Brightness.dark), greaterThan(0));
+      expect(await borderLightness(.light), lessThan(0));
+      expect(await borderLightness(.dark), greaterThan(0));
     });
 
     testWidgets(
