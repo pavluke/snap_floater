@@ -1,4 +1,6 @@
-## Snap Floater
+# Snap Floater
+
+**En** | [Ru](README_RU.md)
 
 A draggable floating button for Flutter that snaps to predefined screen positions.
 Controlled programmatically from anywhere in the widget tree via `SnapFloaterScope.of(context)`.
