@@ -1,7 +1,7 @@
 part of '../widgets/snap_floater_scope.dart';
 
 /// {@template snap_floater_controller}
-/// Controls the state and behaviour of a [SnapFloaterScope].
+/// Controls the state and behavior of a [SnapFloaterScope].
 ///
 /// Obtain via [SnapFloaterScope.of] or [SnapFloaterScope.maybeOf] —
 /// do not instantiate directly.
@@ -50,7 +50,6 @@ class SnapFloaterController extends ValueNotifier<SnapFloaterState> {
       final saved = await storage.read();
       if (_disposed || _touched || saved == null) return;
       final alignment = saved.base.alignment;
-      // The saved position may come from an older list of snap targets.
       if (!_settings.snapAlignments.contains(alignment)) return;
       _storageModel = saved;
       _emit(value.copyWith(alignment: alignment));
@@ -81,7 +80,6 @@ class SnapFloaterController extends ValueNotifier<SnapFloaterState> {
     if (!value.isDragging &&
         !settings.snapAlignments.contains(value.alignment)) {
       final first = settings.snapAlignments.first;
-      // Called from didUpdateWidget (build phase): notify after the frame.
       scheduleMicrotask(() => _emit(value.copyWith(alignment: first)));
     }
   }

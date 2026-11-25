@@ -44,7 +44,7 @@ part '../controllers/snap_floater_controller.dart';
 /// Control the floater from anywhere in the tree:
 /// ```dart
 /// SnapFloaterScope.of(context).hide();
-/// SnapFloaterScope.of(context).snapTo(Alignment.topLeft);
+/// SnapFloaterScope.of(context).snapTo(.topLeft);
 /// ```
 ///
 /// See also:
@@ -116,7 +116,7 @@ class SnapFloaterScope extends StatefulWidget {
   /// Builds preview widgets shown at snap targets during drag.
   final PreviewBuilder previewBuilder;
 
-  /// Configuration for behaviour and appearance.
+  /// Configuration for behavior and appearance.
   final SnapFloaterSettings settings;
 
   /// The widget subtree this scope wraps.

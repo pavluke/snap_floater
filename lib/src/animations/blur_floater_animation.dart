@@ -44,7 +44,6 @@ class BlurFloaterAnimation extends StatelessWidget {
       ),
       duration: const Duration(milliseconds: 350),
       curve: Curves.easeOut,
-      // No offscreen layer when fully sharp.
       builder: (context, sigma, child) => sigma == 0
           ? child ?? const SizedBox.shrink()
           : ImageFiltered(

@@ -14,8 +14,8 @@ import '../storage/snap_floater_storage.dart';
 /// ```dart
 /// SnapFloaterSettings(
 ///   snapAlignments: [
-///     Alignment.bottomRight,
-///     Alignment.topRight,
+///     .bottomRight,
+///     .topRight,
 ///   ],
 ///   storage: SharedPreferencesStorage(),
 /// )
@@ -24,13 +24,13 @@ import '../storage/snap_floater_storage.dart';
 class SnapFloaterSettings {
   /// {@macro snap_floater_settings}
   const SnapFloaterSettings({
-    this.dragMode = FloaterDragMode.longPress,
+    this.dragMode = .longPress,
     @Deprecated(
       'Use the first element of snapAlignments instead. '
       'The initial alignment is now the first item in snapAlignments.',
     )
-    this.initialAlignment = Alignment.bottomRight,
-    this.snapAlignments = const [Alignment.bottomRight],
+    this.initialAlignment = .bottomRight,
+    this.snapAlignments = const [.bottomRight],
     this.isEnabled = true,
     this.showPreview = true,
     this.storage,
